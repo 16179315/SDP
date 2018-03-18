@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin mockup</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  	<link href="admin_style.css" rel="stylesheet">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<a class="navbar-brand abs" href="#">HoteledIn</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="collapsingNavbar">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<button class="btn btn-success" type="submit">Log out</button>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+			<div class="col-sm-8">
+		    	<div data-spy="scroll" class="tabbable-panel">
+		        	<div class="tabbable-line">
+		          		<ul class="nav nav-tabs">
+				            <li class="nav-item active">
+				              	<a href="#tab_editban" class="nav-link" role="tab" data-toggle="tab">Edit/Ban</a>
+				            </li>
+				            <li class="nav-item">
+				              	<a href="#tab_bannedlist" class="nav-link" role="tab" data-toggle="tab">Banned Users</a>
+				            </li>
+		          		</ul>
+		          		<div class="tab-content">
+		            		<div role="tabpanel" class="tab-pane active" id="tab_editban">
+				              	<div class="container">
+								    <div class="row">    
+								        <div class="col-xs-8 col-xs-offset-2">
+										    <div class="input-group">
+								                <div class="input-group-btn search-panel">
+								                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								                    	<span id="search_concept">Choose Action</span> <span class="caret"></span>
+								                    </button>
+								                    <ul class="dropdown-menu" role="menu">
+								                      <li><a href="#banuser">Ban User</a></li>
+								                      <li><a href="#banorg">Ban Organisation</a></li>
+								                      <li><a href="#edituser">Edit User</a></li>
+								                      <li><a href="#editorg">Edit Organisation</a></li>
+								                      <li><a href="#removevacancy">Remove Vacancy</a></li>
+								                    </ul>
+								                </div>
+								                <input type="hidden" name="search_param" value="all" id="search_param">         
+								                <input type="text" class="form-control" name="x" placeholder="User/Organisation/Vacancy ID">
+								                <span class="input-group-btn">
+								                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+								                </span>
+								            </div>
+								        </div>
+									</div>
+								</div>
+		            		</div>
+		            		<div role="tabpanel" class="tab-pane" id="tab_bannedlist">
+					           	<p>
+					            	Joe Tobin
+					            </p>
+		                 	</div>
+		          		</div>
+		        	</div>
+		      	</div>
+		  	</div>
+		</div>
+</body>
+</html>
