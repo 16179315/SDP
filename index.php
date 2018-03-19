@@ -1,3 +1,12 @@
+<?php
+	session_start();
+	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
+		header("Location: ../profile.html");
+		exit();
+	}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +43,7 @@
 					<button class="btn btn-success" name ="submit" type="submit">Log in</button>
 			</li>
 			<li class="nav-item">
-					<a class="nav-link" href="#">Forgot password?</a>
+					<a class="nav-link" href="includes/logout.php">Forgot password?</a>
             </li>
 		</form>
         </ul>

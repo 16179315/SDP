@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 if (isset($_POST['submit'])) {
 	
 	$dbServerName = "sql11.freemysqlhosting.net:3306";
@@ -30,7 +32,11 @@ if (isset($_POST['submit'])) {
 				header("Location: ../?login=error");
 				exit();
 			} elseif ($hashedPasswordCheck == true) {
-				header("Location: ../?login=success");
+				$_SESSION['uFirst'] = $row[uFirstName];
+				$_SESSION['uLast'] = $row[uLastName];
+				$_SESSION['uEmail'] = $row[uEmail];
+				$_SESSION["loggedIn"] = true;
+				header("Location: ../profile.html");
 				exit();
 			}
 		}
