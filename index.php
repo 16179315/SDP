@@ -43,7 +43,7 @@
 					<button class="btn btn-success" name ="submit" type="submit">Log in</button>
 			</li>
 			<li class="nav-item">
-					<a class="nav-link" href="includes/logout.php">Forgot password?</a>
+					<a class="nav-link" href="forgotPassword.php">Forgot password?</a>
             </li>
 		</form>
         </ul>
