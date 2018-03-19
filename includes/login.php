@@ -32,6 +32,7 @@ if (isset($_POST['submit'])) {
 				header("Location: ../?login=error");
 				exit();
 			} elseif ($hashedPasswordCheck == true) {
+				$_SESSION['uId'] = $row[uId];
 				$_SESSION['uFirst'] = $row[uFirstName];
 				$_SESSION['uLast'] = $row[uLastName];
 				$_SESSION['uEmail'] = $row[uEmail];
