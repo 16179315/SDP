@@ -22,7 +22,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand abs" href="#">LinkedIn</a>
+    <a class="navbar-brand abs" href="../index.php">LinkedIn</a>
 </nav>
 
 <div class ="container">
