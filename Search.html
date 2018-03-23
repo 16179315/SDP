@@ -33,26 +33,29 @@
 </nav>
 
 <div class ="container">
-  <div class="row justify-content-center pt-5">
-    <div class="row">
-        <div class="form-horizontal">
-          <div class="input-group">
-            <div class="ddl-select input-group-btn">
-              <select id="ddlsearch" class="selectpicker form-control" data-style="btn-primary">
-                <option value="" data-hidden="true" class="ddl-title">Search for</option>
-                <option value="users">Users</option>
-                <option value="organizations">Organizations</option>
-                <option value="vancancies">Vacancies</option>
-              </select>
+    <form action="includes/searchResults.php" method="POST">
+        <div class="row justify-content-center pt-5">
+          <div class="row">
+              <div class="form-horizontal">
+                <div class="input-group">
+                  <div class="ddl-select input-group-btn">
+                    <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
+                      <option value="" data-hidden="true" class="ddl-title">Search for</option>
+                      <option value="users">Users</option>
+                      <option value="organizations">Organizations</option>
+                      <option value="vancancies">Vacancies</option>
+                    </select>
+                  </div>
+                    <input id="txtkey" name="data" class="form-control" placeholder="Enter here" 
+                                            aria-describedby="ddlsearch" type="text">
+                    <input class="btn btn-success" type="submit" role="search" name ="search">
+                </div>
+              </div>
             </div>
-            <input id="txtkey" class="form-control" placeholder="Enter here" aria-describedby="ddlsearch" type="text">
-             <button class="btn btn-success" type="search" name ="search">Search</button>
-          </div>
-        </div>
-      </div>
-      </div> 
-    </div>
+        </div> 
+      </form>
   </div>
+</div>
 
 <footer class="footer">
       <div class="container">
