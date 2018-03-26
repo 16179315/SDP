@@ -5,11 +5,7 @@ $emptyField = false;
 
 if (isset($_POST['submit'])) {
 	
-	$dbServerName = "sql2.freemysqlhosting.net:3306";
-	$dbUsername = "sql2228932";
-	$dbPassword = "rQ8*iQ8!";
-	$dbName = "sql2228932";
-	$conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
+	include 'db.php';
 
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$password = mysqli_real_escape_string($conn, $_POST['password']);

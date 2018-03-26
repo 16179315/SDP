@@ -1,10 +1,10 @@
 <?php
 
-$serverName = "sql11.freemysqlhosting.net";
-$username = "sql11225471";
-$password = "cbgPE8apID";
-$name = "sql11225471";
+$dbServerName = "sql2.freemysqlhosting.net:3306";
+$dbUsername = "sql2228932";
+$dbPassword = "rQ8*iQ8!";
+$dbName = "sql2228932";
 
-$connection = mysqli_connect($serverName, $username, $password, $name);
+$conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
 
 ?>

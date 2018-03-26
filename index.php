@@ -66,7 +66,7 @@
     </div>
 </nav>
 
-<?php if (isset($_SESSION['errors'])): ?>
+<?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
 
 	<div class="alert alert-danger">
     <h3>You have not completed the form correctly. The error(s) are as follows.</h3>
@@ -78,6 +78,15 @@
 	</div>
 
 	<?php unset($_SESSION['errors']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['accountCreated']) && $_SESSION['accountCreated']): ?>
+
+	<div class="alert alert-success">
+    <h3>You are successfully registered. Please log in.</h3>
+	</div>
+
+	<?php unset($_SESSION['accountCreated']); ?>
 <?php endif; ?>
 
 <div class ="container">

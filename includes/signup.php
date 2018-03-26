@@ -3,14 +3,10 @@ session_start();
 $_SESSION['errors'] = array();
 
 
+
 if (isset($_POST['submit'])) {
 	
-	$dbServerName = "sql2.freemysqlhosting.net:3306";
-	$dbUsername = "sql2228932";
-	$dbPassword = "rQ8*iQ8!";
-	$dbName = "sql2228932";
-	$conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
-	
+	include 'db.php';
 	
 	$firstName = mysqli_real_escape_string($conn, $_POST['firstName']);
 	$lastName = mysqli_real_escape_string($conn, $_POST['lastName']);
@@ -68,6 +64,7 @@ if (isset($_POST['submit'])) {
 				$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
 				mysqli_query($conn, $sql);
 				header("Location: ..?signup=success");
+				$_SESSION['accountCreated'] = true;
 				exit();
 				}
 			}
