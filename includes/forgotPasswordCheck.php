@@ -1,9 +1,9 @@
 <?php
     if (isset($_POST["submit"])) {
-        $dbServerName = "sql11.freemysqlhosting.net:3306";
-        $dbUsername = "sql11225471";
-        $dbPassword = "cbgPE8apID";
-        $dbName = "sql11225471";
+        $dbServerName = "sql2.freemysqlhosting.net:3306";
+        $dbUsername = "sql2228932";
+        $dbPassword = "rQ8*iQ8!";
+        $dbName = "sql2228932";
         $conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
 
         $email = mysqli_real_escape_string($conn, $_POST['email']);
