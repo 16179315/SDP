@@ -1,12 +1,26 @@
 <?php
 	session_start();
+
+	$emailCSS = '';
+	$passwordCSS = '';
+	$loginError = array();
+
 	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
 		header("Location: ../profile.php");
 		exit();
 	}
 
-	$error_css = '';
-	$loginError = array();
+	if (isset($_SESSION['emailEmpty']) && $_SESSION['emailEmpty'] == true) {
+		$emailCSS = "border-color: red;";
+	}
+
+	if (isset($_SESSION['passwordEmpty']) && $_SESSION['passwordEmpty'] == true) {
+		$passwordCSS = "border-color: red;";
+	}
+
+	unset($_SESSION['emailEmpty']);
+	unset($_SESSION['passwordEmpty']);
+
 ?>
 
 <!DOCTYPE html>
@@ -33,12 +47,12 @@
 		<form class ="form-inline navbar-form" action="includes/login.php" method="POST">
             <li class="nav-item">
 					<div class="form-group mr-sm-2">
-						<input type="text" name="email" class="form-control" placeholder="Email" style="<?php echo $error_css; ?>">
+						<input type="text" name="email" class="form-control" placeholder="Email" style="<?php echo $emailCSS; ?>">
 					</div>
             </li>
 			<li class="nav-item mr-sm-2">
 					<div class="form-group">
-						<input type="password" name="password" class="form-control" placeholder="Password" style="<?php echo $error_css; ?>">
+						<input type="password" name="password" class="form-control" placeholder="Password" style="<?php echo $passwordCSS; ?>">
 					</div>
             </li>
 			<li class="nav-item">

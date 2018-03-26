@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$emptyField = false;
 
 if (isset($_POST['submit'])) {
 	
@@ -14,10 +15,19 @@ if (isset($_POST['submit'])) {
 	$password = mysqli_real_escape_string($conn, $_POST['password']);
 	
 	
-	if(empty($email) || empty($password)) {
-		header("Location: ../?login=empty");
+	if(empty($email)) {
+		$_SESSION['emailEmpty'] = true;
+		$emptyField = true;
+	}
+	if (empty($password)) {
+		$_SESSION['passwordEmpty'] = true;
+		$emptyField = true;
+	}
+	if ($emptyField) {
+		header("Location: ../?emptyFields");
 		exit();
-	} else {
+	}
+	else {
 		$sql = "SELECT * FROM users WHERE uEmail = '$email';";
 		$result = mysqli_query($conn, $sql);
 		$resultCheck = mysqli_num_rows($result);

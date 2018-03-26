@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
 		header("Location: ../?emptyField");
 		exit();
 	}
-	if (!(empty($_POST['password']) || empty($_POST['email']) || empty($_POST['lastName']) || empty($_POST['firstName']))) {
+	else {
 		//First and last name correct
 		if (!preg_match("/^[a-zA-Z]*$/", $firstName) || !preg_match("/^[a-zA-Z]*$/", $lastName)) {
 			array_push($_SESSION["errors"],"Your first or last name is not valid, please only enter alphabetical characters.");
