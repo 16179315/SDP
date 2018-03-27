@@ -1,23 +1,20 @@
 <?php
     include 'navbar_template.html';
+    include 'db.php';
 
-      if(isset($_POST["search"])){
-            $serverName = "sql11.freemysqlhosting.net";
-            $username = "sql11225471";
-            $password = "cbgPE8apID";
-            $name = "sql11225471";
 
-            $conn = mysqli_connect($serverName, $username, $password, $name);
+      if(isset($_POST["search"]) && isset($_POST["dropDown"])){
             $searchInput = mysqli_real_escape_string($conn, $_POST["data"]);
+            $dropDownValue = mysqli_real_escape_string($conn, $_POST["dropDown"]);
 
-            $users = mysqli_query($conn, "SELECT uFirstName FROM users 
-                                                    WHERE uFirstName LIKE" . "'%"."$searchInput"."%';");
+            $query = mysqli_query($conn, "SELECT uFirstName FROM" . " $dropDownValue " . 
+                                                    "WHERE uFirstName LIKE" . "'%"."$searchInput"."%';");
 
-            while($row = mysqli_fetch_row($users))
+            while($row = mysqli_fetch_row($query))
             {
-                printf("<ul>%s\n</ul>", $row[0]);
+                printf("<ul><li>%s\n</li></ul>", $row[0]);
             }
-            var_dump($searchInput);
-            echo $searchInput;
         }
-    ?>
+
+    mysqli_close($conn);
+?>
