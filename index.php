@@ -41,7 +41,7 @@
 
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand abs" href="../index.php">HoteledIn</a>
+    <a class="navbar-brand abs" href="../index.php">HoteledInn</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -71,8 +71,8 @@
 
 <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
 
-	<div class="alert alert-danger">
-    <h3>You have not completed the form correctly. The error(s) are as follows.</h3>
+	<div class="alert alert-danger ml-4 mr-4 mt-4">
+    <h4>You have not completed the form correctly. The error(s) are as follows.</h3>
     <ol>
         <?php foreach($_SESSION['errors'] as $error): ?>
             <p><?php echo $error ?></p>
@@ -93,9 +93,9 @@
 <?php endif; ?>
 
 <div class ="container">
-	<div class="row justify-content-center">
+	<div class="row justify-content-center pt-3 pb-3">
 		<div class="col-md-auto">
-		<form id="signup-form" action="includes/signup.php" method="POST">
+		<form action="includes/signup.php" method="POST">
 		<div class="form-group">
 			<label for="usr">First Name</label>
 			<input type="text" name="firstName" class="form-control" >
@@ -121,12 +121,6 @@
 		</div>
 	</div>
 </div>
-
-<footer class="footer">
-      <div class="container">
-        <span class="text-muted">Footer information</span>
-      </div>
-</footer>
 	
 
 

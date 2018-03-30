@@ -3,7 +3,7 @@
 session_start();
 $emptyField = false;
 
-if (isset($_POST['login'])) {
+if (isset($_POST['submit'])) {
 	
 	include 'db.php';
 

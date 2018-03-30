@@ -35,6 +35,10 @@ if (isset($_POST['submit'])) {
 		array_push($_SESSION["errors"],"You have not completed the password field.");
 		$emptyField = true;
 	}
+	if(empty($_POST['passwordConfirm'])) {
+		array_push($_SESSION["errors"],"You have not completed the confirm password field.");
+		$emptyField = true;
+	}
 	if ($emptyField) {
 		header("Location: ../?emptyField");
 		exit();

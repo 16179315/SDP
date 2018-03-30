@@ -22,8 +22,17 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand abs" href="../index.php">LinkedIn</a>
+    <a class="navbar-brand abs" href="../index.php">HoteledInn</a>
 </nav>
+
+<?php if (isset($_SESSION['noUserExists']) && $_SESSION['noUserExists'] == true): ?>
+
+	<div class="alert alert-danger ml-4 mr-4 mt-4">
+    <h4>No user exists with that email.</h3>
+	</div>
+
+	<?php unset($_SESSION['noUserExists']); ?>
+<?php endif; ?>
 
 <div class ="container">
 	<div class="row justify-content-center pt-5">
@@ -31,20 +40,26 @@
 		<form action="includes/forgotPasswordCheck.php" method="POST">
 		<div class="form-group">
 			<label for="pwd">Email</label>
-			<input type="text" name = "email" class="form-control">
+			<input type="text" id = "email" name = "email" class="form-control">
 		</div>
-		<button class="btn btn-success btn-block" type="submit" name ="submit">Request Password</button>
+		<button class="btn btn-success btn-block" id = "submit" type="submit" name ="submit">Request Password</button>
 		</form>
 		</div>
 	</div>
 </div>
 
-<footer class="footer">
-      <div class="container">
-        <span class="text-muted">Footer information</span>
-      </div>
-</footer>
 	
 
 </body>
+
+<script>
+	$(document).ready(function() {
+    $('#submit').click(function(event) {
+		if (!($('#email').val())) {
+			event.preventDefault();
+			alert("Empty email field")
+		}
+	});
+});
+</script>
 </html>
