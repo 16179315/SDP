@@ -96,10 +96,10 @@
 	<div class="row justify-content-center pt-3 pb-3">
 		<div class="col-md-auto">
 		<div class="btn-group dropright">
-		<button id="userTypeButton" type="button" class="btn btn-secondary">
+		<button id="userTypeButton" type="button" class="btn btn-secondary mb-2">
 		  Account Type
 		</button>
-		<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split mb-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		  <span class="sr-only">Toggle Dropright</span>
 		</button>
 		<div class="dropdown-menu">
