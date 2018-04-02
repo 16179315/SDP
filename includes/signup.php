@@ -20,49 +20,47 @@ if (isset($_POST['submit'])) {
 	//Not empty
 	if(empty($_POST['firstName'])) {
 		array_push($_SESSION["errors"], "You have not completed the first name field.");
-		$emptyField = true;
+		$error = true;
 	}
 	if(empty($_POST['lastName'])) {
 		array_push($_SESSION["errors"], "You have not completed the last name field.");
-		$emptyField = true;
+		$error = true;
 	}
 
 	if(empty($_POST['email'])) {
 		array_push($_SESSION["errors"],"You have not completed the email field.");
-		$emptyField = true;
+		$error = true;
 	}
 	if(empty($_POST['password'])) {
 		array_push($_SESSION["errors"],"You have not completed the password field.");
-		$emptyField = true;
+		$error = true;
 	}
 	if(empty($_POST['passwordConfirm'])) {
 		array_push($_SESSION["errors"],"You have not completed the confirm password field.");
-		$emptyField = true;
+		$error = true;
 	}
-	if ($emptyField) {
-		header("Location: ../?emptyField");
+	if (strlen($_POST['password']) < 6) {
+		array_push($_SESSION["errors"],"Your password must be at least 6 characters in length.");
+		$error = true;
+	}
+	if (!preg_match("/^[a-zA-Z]*$/", $firstName) || !preg_match("/^[a-zA-Z]*$/", $lastName)) {
+		array_push($_SESSION["errors"],"Your first or last name is not valid, please only enter alphabetical characters.");
+		$error = true;
+	}
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		array_push($_SESSION["errors"],"Your email is not valid. Please only enter a valid email.");
+		$error = true;
+	}
+	if (strcmp($password, $passwordConfirm) != 0) {
+		array_push($_SESSION["errors"],"Your passwords do not match.");
+		$error = true;
+	}
+	if ($error) {
+		header("Location: ../?loginError");
 		exit();
 	}
 	else {
-		//First and last name correct
-		if (!preg_match("/^[a-zA-Z]*$/", $firstName) || !preg_match("/^[a-zA-Z]*$/", $lastName)) {
-			array_push($_SESSION["errors"],"Your first or last name is not valid, please only enter alphabetical characters.");
-			header("Location: ../?signup=invalid");
-			exit();
-		} else {
-			//Email valid
-			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				array_push($_SESSION["errors"],"Your email is not valid. Please only enter a valid email.");
-				header("Location: ../?signup=invalid");
-				exit();
-			} else {
-				if (strcmp($password, $passwordConfirm) != 0) {
-					array_push($_SESSION["errors"],"Your passwords do not match.");
-					header("Location: ../?signup=invalid");
-					exit();
-				}
-		        else {
-					//Hashing password
+				//Hashing password
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 				//Create the user entry in the DB
 				$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
@@ -70,13 +68,8 @@ if (isset($_POST['submit'])) {
 				header("Location: ..?signup=success");
 				$_SESSION['accountCreated'] = true;
 				exit();
-				}
-			}
-		}
 	}
-	
-} else {
-	exit();
+
 }
 
 ?>

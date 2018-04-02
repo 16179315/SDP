@@ -95,24 +95,40 @@
 <div class ="container">
 	<div class="row justify-content-center pt-3 pb-3">
 		<div class="col-md-auto">
+		<div class="btn-group dropright">
+		<button id="userTypeButton" type="button" class="btn btn-secondary">
+		  Account Type
+		</button>
+		<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  <span class="sr-only">Toggle Dropright</span>
+		</button>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="#">Regular User</a>
+    		<a class="dropdown-item" href="#">Hotel</a>
+		</div>
+	  </div>
 		<form action="includes/signup.php" method="POST">
-		<div class="form-group">
+		<div class="form-group d-none" id="companyNameDiv">
+			<label for="usr">Company Name</label>
+			<input type="text" name="companyName" class="form-control" >
+		</div>
+		<div class="form-group" id="firstNameDiv">
 			<label for="usr">First Name</label>
 			<input type="text" name="firstName" class="form-control" >
 		</div>
-		<div class="form-group">
+		<div class="form-group" id ="lastNameDiv">
 			<label for="usr">Last Name</label>
 			<input type="text" name = "lastName" class="form-control">
 		</div>
-		<div class="form-group">
+		<div class="form-group" id = "emailDiv">
 			<label for="pwd">Email</label>
 			<input type="text" name = "email" class="form-control" >
 		</div>
-		<div class="form-group">
-			<label for="pwd">Password</label>
+		<div class="form-group" id="passwordDiv">
+			<label for="pwd">Password (6 characters minimum)</label>
 			<input type="password" name = "password" class="form-control" >
 		</div>
-		<div class="form-group">
+		<div class="form-group" id ="passwordConfirmDiv">
 			<label for="pwd">Confirm Password</label>
 			<input type="password" name = "passwordConfirm" class="form-control">
 		</div>
@@ -139,6 +155,30 @@ $(document).ready(function() {
 		}
 	});
 })
+
+$('.dropdown-menu a').on('click', function(){
+	var option = $(this).text();
+	document.getElementById("userTypeButton").innerText = option;
+	if (option == "Regular User") {
+		$('#firstNameDiv').fadeIn();
+		$('#lastNameDiv').fadeIn();
+		setTimeout(function(){
+			$('#companyNameDiv').fadeOut();
+			setTimeout(function(){
+				$('#companyNameDiv').addClass("d-none");
+			}, 400);
+		}, 400);
+	}
+	else if (option == "Hotel" && $("#companyNameDiv").hasClass("d-none")) {
+		$('#companyNameDiv').hide();
+		$('#companyNameDiv').removeClass("d-none");
+		$('#companyNameDiv').fadeIn();
+		setTimeout(function(){
+			$('#firstNameDiv').fadeOut();
+			$('#lastNameDiv').fadeOut();
+		}, 400);
+	}
+});
 
 $('#emailPopover').blur(function(){
     if( !$(this).val() ) {
