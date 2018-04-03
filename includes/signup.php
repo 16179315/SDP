@@ -4,7 +4,7 @@ $_SESSION['errors'] = array();
 
 
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['signup'])) {
 	
 	include 'db.php';
 	
@@ -13,63 +13,17 @@ if (isset($_POST['submit'])) {
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$password = mysqli_real_escape_string($conn, $_POST['password']);
 	$passwordConfirm = mysqli_real_escape_string($conn, $_POST['passwordConfirm']);
-	$emptyField = false;
-	
-	//Validation
-	
-	//Not empty
-	if(empty($_POST['firstName'])) {
-		array_push($_SESSION["errors"], "You have not completed the first name field.");
-		$error = true;
-	}
-	if(empty($_POST['lastName'])) {
-		array_push($_SESSION["errors"], "You have not completed the last name field.");
-		$error = true;
-	}
-
-	if(empty($_POST['email'])) {
-		array_push($_SESSION["errors"],"You have not completed the email field.");
-		$error = true;
-	}
-	if(empty($_POST['password'])) {
-		array_push($_SESSION["errors"],"You have not completed the password field.");
-		$error = true;
-	}
-	if(empty($_POST['passwordConfirm'])) {
-		array_push($_SESSION["errors"],"You have not completed the confirm password field.");
-		$error = true;
-	}
-	if (strlen($_POST['password']) < 6) {
-		array_push($_SESSION["errors"],"Your password must be at least 6 characters in length.");
-		$error = true;
-	}
-	if (!preg_match("/^[a-zA-Z]*$/", $firstName) || !preg_match("/^[a-zA-Z]*$/", $lastName)) {
-		array_push($_SESSION["errors"],"Your first or last name is not valid, please only enter alphabetical characters.");
-		$error = true;
-	}
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		array_push($_SESSION["errors"],"Your email is not valid. Please only enter a valid email.");
-		$error = true;
-	}
-	if (strcmp($password, $passwordConfirm) != 0) {
-		array_push($_SESSION["errors"],"Your passwords do not match.");
-		$error = true;
-	}
-	if ($error) {
-		header("Location: ../?loginError");
-		exit();
-	}
-	else {
-				//Hashing password
-				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-				//Create the user entry in the DB
-				$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
-				mysqli_query($conn, $sql);
-				header("Location: ..?signup=success");
-				$_SESSION['accountCreated'] = true;
-				exit();
-	}
-
+	//Hashing password
+	$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+	//Create the user entry in the DB
+	$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
+	mysqli_query($conn, $sql);
+	header("Location: ..?signup=success");
+	$_SESSION['accountCreated'] = true;
+	exit();
+} else {
+	header("Location: ..?nosubmitbut");
+	exit();
 }
 
 ?>

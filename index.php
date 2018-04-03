@@ -47,7 +47,7 @@
     </button>
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav ml-auto">
-		<form id="signupformm" class ="form-inline navbar-form" action="includes/login.php" method="POST" novalidate="novalidate">
+		<form class ="form-inline navbar-form" action="includes/login.php" method="POST" novalidate="novalidate">
             <li class="nav-item">
 					<div class="form-group mr-sm-2">
 						<input type="email" id="emailPopover" name="email" class="form-control required name" title="Warning" data-content="Email cannot be empty" data-toggle="popover" data-trigger="manual" data-placement="bottom" placeholder="Email">
@@ -69,19 +69,21 @@
     </div>
 </nav>
 
-<?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
-
-	<div class="alert alert-danger ml-4 mr-4 mt-4">
+	<div id = "errorDiv" class="alert alert-danger ml-4 mr-4 mt-4 d-none">
     <h4>You have not completed the form correctly. The error(s) are as follows.</h3>
     <ol>
-        <?php foreach($_SESSION['errors'] as $error): ?>
-            <p><?php echo $error ?></p>
-        <?php endforeach; ?>
+		<p id = "cn" class ="d-none">You have not completed the company name field.</p>
+		<p id = "fn" class ="d-none">You have not completed the first name field.</p>
+		<p id = "ln" class ="d-none">You have not completed the last name field.</p>
+		<p id = "em" class ="d-none">You have not completed the email field.</p>
+		<p id = "pw" class ="d-none">You have not completed the password field.</p>
+		<p id = "pwc" class ="d-none">You have not completed the confirm password field.</p>
+		<p id = "pwl" class ="d-none">Your password must be at least 6 characters in length.</p>
+		<p id = "vaN" class ="d-none">Your first or last name is not valid. Please only enter alphabetical characters.</p>
+		<p id = "vaE" class ="d-none">Your email is not valid. Please only enter a valid email.</p>
+		<p id = "pm" class ="d-none">Your passwords do not match.</p>
 	</ol>
 	</div>
-
-	<?php unset($_SESSION['errors']); ?>
-<?php endif; ?>
 
 <?php if (isset($_SESSION['accountCreated']) && $_SESSION['accountCreated']): ?>
 
@@ -107,32 +109,32 @@
     		<a class="dropdown-item" href="#">Hotel</a>
 		</div>
 	  </div>
-		<form action="includes/signup.php" method="POST">
+		<form id="signupForm" action="includes/signup.php" method="POST">
 		<div class="form-group d-none" id="companyNameDiv">
 			<label for="usr">Company Name</label>
 			<input type="text" name="companyName" class="form-control" >
 		</div>
-		<div class="form-group" id="firstNameDiv">
+		<div class="form-group" id ="firstNameDiv">
 			<label for="usr">First Name</label>
-			<input type="text" name="firstName" class="form-control" >
+			<input id ="firstName" type="text" name="firstName" class="form-control" >
 		</div>
 		<div class="form-group" id ="lastNameDiv">
 			<label for="usr">Last Name</label>
-			<input type="text" name = "lastName" class="form-control">
+			<input id ="lastName" type="text" name = "lastName" class="form-control">
 		</div>
 		<div class="form-group" id = "emailDiv">
 			<label for="pwd">Email</label>
-			<input type="text" name = "email" class="form-control" >
+			<input id ="email" type="text" name = "email" class="form-control" >
 		</div>
 		<div class="form-group" id="passwordDiv">
 			<label for="pwd">Password (6 characters minimum)</label>
-			<input type="password" name = "password" class="form-control" >
+			<input id ="password" type="password" name = "password" class="form-control" >
 		</div>
 		<div class="form-group" id ="passwordConfirmDiv">
 			<label for="pwd">Confirm Password</label>
-			<input type="password" name = "passwordConfirm" class="form-control">
+			<input id = "passwordConfirm" type="password" name = "passwordConfirm" class="form-control">
 		</div>
-		<button class="btn btn-success btn-block" type="submit" name ="submit">Create Account</button>
+		<button class="btn btn-success btn-block" type="submit" name ="signup">Create Account</button>
 		</form>
 		</div>
 	</div>
@@ -141,6 +143,97 @@
 
 
 <script>
+var option = "";
+
+// TODO: Need to change the errors if the user is logging in as a hotel or as a regular user
+$('#signupForm').submit(function(e){
+	if (!$('#firstName').val()) {
+		console.log("s");
+		$('#fn').show();
+		$('#fn').removeClass("d-none");
+		error = true;
+	} else {
+		$('#fn').hide();
+	}
+	if (!$('#lastName').val()) {
+		console.log("s");
+		$('#ln').show();
+		$('#ln').removeClass("d-none");
+		error = true;
+	} else {
+		$('#ln').hide();
+	}
+	if (!$('#email').val()) {
+		console.log("s");
+		$('#em').show();
+		$('#em').removeClass("d-none");
+		error = true;
+	} else {
+		$('#em').hide();
+	}
+	if (!$('#password').val()) {
+		console.log("s");
+		$('#pw').show();
+		$('#pw').removeClass("d-none");
+		error = true;
+	} else {
+		$('#pw').hide();
+	}
+	if (!$('#passwordConfirm').val()) {
+		console.log("s");
+		$('#pwc').show();
+		$('#pwc').removeClass("d-none");
+		error = true;
+	} else {
+		$('#pwc').hide();
+	}
+	if ($('#password').val().length < 6 || $('#passwordConfirm').val().length < 6) {
+		console.log("pwl");
+		$('#pwl').show();
+		$('#pwl').removeClass("d-none");
+		error = true;
+	} else {
+		$('#pwl').hide();
+	}
+	if (!($('#firstName').val().match(/^[A-z]+$/)) || !($('#lastName').val().match(/^[A-z]+$/))) {
+		console.log("fn");
+		$('#vaN').show();
+		$('#vaN').removeClass("d-none");
+		error = true;
+	} else {
+		$('#vaN').hide();
+	}
+	if (!$('#email').val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+		console.log("email");
+		$('#vaE').show();
+		$('#vaE').removeClass("d-none");
+		error = true;
+	} else {
+		$('#vaE').hide();
+	}
+	if (!$('#password').val().match($('#passwordConfirm').val()) || !$('#passwordConfirm').val().match($('#password').val())) {
+		console.log("email");
+		$('#pm').show();
+		$('#pm').removeClass("d-none");
+		error = true;
+	} else {
+		$('#pm').hide();
+	}
+	if (!$('#cn').val()) {
+		console.log("cn");
+		$('#cn').show();
+		$('#cn').removeClass("d-none");
+		error = true;
+	} else {
+		$('#cn').hide();
+	}
+	if (error) {
+		$('#errorDiv').removeClass("d-none");
+		e.preventDefault();
+	}
+
+});
+
 
 $(document).ready(function() {
     $('#loginButton').click(function(event) {
@@ -156,6 +249,7 @@ $(document).ready(function() {
 	});
 })
 
+
 $('.dropdown-menu a').on('click', function(){
 	var option = $(this).text();
 	document.getElementById("userTypeButton").innerText = option;
@@ -170,6 +264,7 @@ $('.dropdown-menu a').on('click', function(){
 		}, 400);
 	}
 	else if (option == "Hotel" && $("#companyNameDiv").hasClass("d-none")) {
+		var hotelSelected = true;
 		$('#companyNameDiv').hide();
 		$('#companyNameDiv').removeClass("d-none");
 		$('#companyNameDiv').fadeIn();
