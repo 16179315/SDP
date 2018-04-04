@@ -6,7 +6,8 @@
 	$loginError = array();
 
 	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-		header("Location: ../profile.php");
+		$url = "../profile.php?uId=".$_SESSION['uId'];
+		header("Location: ".$url);
 		exit();
 	}
 
@@ -88,11 +89,29 @@
 
 <?php if (isset($_SESSION['accountCreated']) && $_SESSION['accountCreated']): ?>
 
-	<div class="alert alert-success">
+	<div class="alert alert-success ml-4 mr-4 mt-4">
     <h3>You are successfully registered. Please log in.</h3>
 	</div>
 
 	<?php unset($_SESSION['accountCreated']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['noUserExists']) && $_SESSION['noUserExists']): ?>
+
+	<div class="alert alert-danger ml-4 mr-4 mt-4">
+    <h3>No user exists with that email.</h3>
+	</div>
+
+	<?php unset($_SESSION['noUserExists']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['passwordIncorrect']) && $_SESSION['passwordIncorrect']): ?>
+
+	<div class="alert alert-danger ml-4 mr-4 mt-4">
+    <h3>The password is not correct.</h3>
+	</div>
+
+	<?php unset($_SESSION['passwordIncorrect']); ?>
 <?php endif; ?>
 
 <div class ="container">
