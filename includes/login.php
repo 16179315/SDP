@@ -24,16 +24,29 @@ if (isset($_POST['login'])) {
 		exit();
 	}
 	else {
-		$sql = "SELECT * FROM users WHERE uEmail = '$email';";
-		$result = mysqli_query($conn, $sql);
-		$resultCheck = mysqli_num_rows($result);
-		if ($resultCheck < 1) {
+		$sqlUser = "SELECT * FROM users WHERE uEmail = '$email';";
+		$sqlHotel = "SELECT * FROM hotels WHERE email = '$email';";
+		$resultUser = mysqli_query($conn, $sqlUser);
+		$resultCheckUser = mysqli_num_rows($resultUser);
+		$resultHotel = mysqli_query($conn, $sqlHotel);
+		$resultCheckHotel = mysqli_num_rows($resultHotel);
+		if ($resultCheckUser < 1 && $resultCheckHotel < 1) {
+			// no user exists
 			$_SESSION['noUserExists'] = true;
 			header("Location: ../?login=no_user");
 			exit();
 		} else {
-			if ($row = mysqli_fetch_assoc($result)) {
-				$hashedPasswordCheck = password_verify($password, $row['uPassword']);
+			if ($resultCheckHotel == 1) {
+				if ($row = mysqli_fetch_assoc($resultHotel)) {
+					// user exists
+					$hashedPasswordCheck = password_verify($password, $row['password']);
+				}
+			}
+			if ($resultCheckUser == 1) {
+				if ($row = mysqli_fetch_assoc($resultUser)) {
+					// user exists
+					$hashedPasswordCheck = password_verify($password, $row['uPassword']);
+				}
 			}
 			if ($hashedPasswordCheck == false) {
 				$_SESSION['passwordIncorrect'] = true;
