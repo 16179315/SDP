@@ -70,6 +70,9 @@
                     <div class="tabbable-line">
                         <ul class="nav nav-tabs">
                             <li class="nav-item active">
+                                <a href="#tab_friends" class="nav-link" role="tab" data-toggle="tab">Friends</a>
+                            </li>
+                            <li class="nav-item active">
                                 <a href="#tab_details" class="nav-link" role="tab" data-toggle="tab">Details</a>
                             </li>
                             <li class="nav-item">
@@ -83,6 +86,20 @@
                             </li>
                         </ul>
                         <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="tab_details">
+                                <?php
+                                $friend_sql="SELECT uFirstName, uLastName FROM users u, friends f WHERE u.uId=f.uid1 AND f.uid2 = '".$_SESSION[uId]."';";
+                                $friend_result=$conn->query($friend_sql);
+                                if ($conn && ($friend_result->num_rows>0)) {
+                                    while ($friend_row=$friend_result->fetch_assoc()) {
+                                        echo
+                                        "<div>
+                                            <img src=\"http://via.placeholder.com/80x80px\">
+                                            <p>".$friend_row['uFirstName']." ".$friend_row['uLastName']."</p>
+                                        </div>"
+                                    }
+                                ?>
+                            </div>
                             <div role="tabpanel" class="tab-pane active" id="tab_details">
                                 <p>
                                     <?php
