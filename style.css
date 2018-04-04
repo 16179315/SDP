@@ -23,6 +23,11 @@
 .name {
     padding-left: 25px;
 }
+
+.skill-row {
+  border: 2px solid lightgrey;
+  border-radius: 5px;
+}
  
 #profile {
     position: absolute;
