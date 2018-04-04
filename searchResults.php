@@ -17,7 +17,7 @@
                 }
 
             }elseif (strcmp($dropDownValue, "hotels") == 0) {
-                $query = mysqli_query($conn, "SELECT hName FROM hotels" . 
+                $query = mysqli_query($conn, "SELECT hName FROM hotels " . 
                                                     "WHERE hName LIKE" . "'%"."$searchInput"."%';");
                 while($row = mysqli_fetch_row($query))
                 {
@@ -34,7 +34,6 @@
                 }
             }
             
-           
              mysqli_close($conn);
         }
 ?>

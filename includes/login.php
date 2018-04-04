@@ -28,6 +28,7 @@ if (isset($_POST['login'])) {
 		$result = mysqli_query($conn, $sql);
 		$resultCheck = mysqli_num_rows($result);
 		if ($resultCheck < 1) {
+			$_SESSION['noUserExists'] = true;
 			header("Location: ../?login=no_user");
 			exit();
 		} else {
@@ -35,6 +36,7 @@ if (isset($_POST['login'])) {
 				$hashedPasswordCheck = password_verify($password, $row['uPassword']);
 			}
 			if ($hashedPasswordCheck == false) {
+				$_SESSION['passwordIncorrect'] = true;
 				header("Location: ../?login=error");
 				exit();
 			} elseif ($hashedPasswordCheck == true) {
@@ -43,7 +45,8 @@ if (isset($_POST['login'])) {
 				$_SESSION['uLast'] = $row[uLastName];
 				$_SESSION['uEmail'] = $row[uEmail];
 				$_SESSION['loggedIn'] = true;
-				header("Location: ../profile.php");
+				$url = "../profile.php?uId=".$_SESSION['uId'];
+				header("Location: ".$url);
 				exit();
 			}
 		}

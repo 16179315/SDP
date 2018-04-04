@@ -6,7 +6,8 @@
 	$loginError = array();
 
 	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-		header("Location: ../profile.php");
+		$url = "../profile.php?uId=".$_SESSION['uId'];
+		header("Location: ".$url);
 		exit();
 	}
 
@@ -88,11 +89,38 @@
 
 <?php if (isset($_SESSION['accountCreated']) && $_SESSION['accountCreated']): ?>
 
-	<div class="alert alert-success">
-    <h3>You are successfully registered. Please log in.</h3>
-	</div>
+<div class="alert alert-success alert-dismissable ml-4 mr-4 mt-4">
+<strong>You have successfully created an account. Please log in.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
 	<?php unset($_SESSION['accountCreated']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['noUserExists']) && $_SESSION['noUserExists']): ?>
+
+<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+<strong>No user exists with that email.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+	<?php unset($_SESSION['noUserExists']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['passwordIncorrect']) && $_SESSION['passwordIncorrect']): ?>
+
+	<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+    <strong>The password is not correct.</strong>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  	</button>
+	</div>
+
+	<?php unset($_SESSION['passwordIncorrect']); ?>
 <?php endif; ?>
 
 <div class ="container">
