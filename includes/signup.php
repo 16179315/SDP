@@ -27,7 +27,7 @@ if (isset($_POST['signup'])) {
 		//Hashing password
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 		//Create the user entry in the DB
-		$sql = "INSERT INTO users(uFirstName, uPassword, uEmail, uHotel) VALUES ('$firstName', '$hashedPassword', '$email', 1);";
+		$sql = "INSERT INTO hotels(hName, password, email) VALUES ('$firstName', '$hashedPassword', '$email');";
 		mysqli_query($conn, $sql);
 		header("Location: ..?signupHotel=success");
 		$_SESSION['accountCreated'] = true;
