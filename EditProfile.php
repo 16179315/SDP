@@ -108,6 +108,24 @@
     			<button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
     		</div> 
       </div>
+      <div class="col-md-4">
+        <form class="form-horizontal" action="/includes/changeAddress.php" method="post">
+          <div class="form-group">
+            <label for="comment">Change Address:</label>
+            <textarea class="form-control" rows="5" id="comment" name="changeAddress"></textarea>
+            <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
+          </div> 
+        </form>
+      </div>
+      <div class="col-md-4">
+        <form class="form-horizontal" action="/includes/changeContactNo.php" method="post">
+          <div class="form-group">
+            <label for="comment">Change Contact Number:</label>
+            <textarea class="form-control" rows="5" id="comment" name="changeContactNo"></textarea>
+            <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
+          </div> 
+        </form>
+      </div>
     </div>
   </div>
 

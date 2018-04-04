@@ -129,8 +129,12 @@
                                     } else {
                                         $bio_sql="SELECT uBio FROM users where uId = '".$_SESSION['uId']."';";
                                     }
-                                    $bio_result=$conn->query($bio_sql);
-                                    if ($conn && ($bio_result->num_rows>0)) {
+                                    $bio_result=mysql_query($conn, $bio_sql);
+                                    $resultCheck = mysqli_num_rows($bio_result);
+                                    if ($resultCheck<1) {
+                                        header("Location:../?login=no_user");
+                                        exit();
+                                    } else {
                                         while ($bio_row=$bio_result->fetch_assoc()) {
                                             echo $bio_row['uBio'];
                                         }
@@ -146,8 +150,12 @@
                                 } else {
                                     $friend_sql="SELECT uId, uFirstName, uLastName FROM users u, friends f WHERE u\.uId=f\.uid1 AND f\.uid2 = '".$_SESSION['uId']."';";
                                 }
-                                $friend_result=$conn->query($friend_sql);
-                                if ($conn && ($friend_result->num_rows>0)) {
+                                $friend_result=mysql_query($conn, $friend_sql);
+                                    $resultCheck = mysqli_num_rows($friend_result);
+                                    if ($resultCheck<1) {
+                                        header("Location:../?login=no_user");
+                                        exit();
+                                    } else {
                                     while ($friend_row=$friend_result->fetch_assoc()) {
                                         echo
                                         "<div>
@@ -168,8 +176,12 @@
                                     } else {
                                         $contact_sql="SELECT uAddress, uContactNo FROM users WHERE uId = '".$_SESSION['uId']."';";
                                     }
-                                    $contact_result=$conn->query($contact_sql);
-                                    if ($conn && ($contact_result->num_rows>0)) {
+                                    $contact_result=mysql_query($conn, $contact_sql);
+                                    $resultCheck = mysqli_num_rows($contact_result);
+                                    if ($resultCheck<1) {
+                                        header("Location:../?login=no_user");
+                                        exit();
+                                    } else {
                                         while ($contact_row=$contact_result->fetch_assoc()) {
                                             echo $contact_row['uAddress'];
                                         }
@@ -179,7 +191,12 @@
                                 <p><b>Contact Number</b></p>
                                 <p>
                                     <?php
-                                    if ($conn && ($contact_result->num_rows>0)) {
+                                    $contact_result=mysql_query($conn, $contact_sql);
+                                    $resultCheck = mysqli_num_rows($contact_result);
+                                    if ($resultCheck<1) {
+                                        header("Location:../?login=no_user");
+                                        exit();
+                                    } else {
                                         while ($contact_row=$contact_result->fetch_assoc()) {
                                             echo $contact_row['uContactNo'];
                                         }
@@ -195,8 +212,12 @@
                                 } else {
                                     $skill_sql="SELECT sTitle FROM skills s, userSkills u WHERE u.sId=s.sId AND u.uId= '".$_SESSION['uId']."';";
                                 }
-                                $skill_result=$conn->query($skill_sql);
-                                if ($conn && ($skill_result->num_rows>0)) {
+                                $skill_result=mysql_query($conn, $skill_sql);
+                                    $resultCheck = mysqli_num_rows($skill_result);
+                                    if ($resultCheck<1) {
+                                        header("Location:../?login=no_user");
+                                        exit();
+                                    } else {
                                     while ($skill_row=$skill_result->fetch_assoc()) {
                                         echo "
                                             <p>
