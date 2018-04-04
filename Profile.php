@@ -2,22 +2,6 @@
     session_start();
  
     include 'includes/db.php';
-    $uid = $_SESSION['uId'];
-    /*
-    $bio_sql="SELECT uBio FROM users where uId = '".$_SESSION[uId]."';";
-    $bio_result=$conn->query($bio_sql);
-    if ($conn && ($bio_result->num_rows>0)) {
-        while ($bio_row=$bio_result->fetch_assoc()) {
-            $bio=$row['uBio'];
-        }
-    }
-    $address_sql="SELECT uAddress FROM users where uId = '".$_SESSION[uId]."';";
-    $address_result=$conn->query($address_sql);
-    if ($conn && ($address_result->num_rows>0)) {
-        while ($address_row=$address_result->fetch_assoc()) {
-            $address=$row['uAddress'];
-        }
-    }*/
 ?>
  
 <html>
@@ -37,7 +21,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand abs" href="../index.php">HoteledIn</a>
+        <a class="navbar-brand abs" href="../index.php">HoteledInn</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -84,7 +68,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab_details">
                                 <?php
-                                $friend_sql="SELECT uFirstName, uLastName FROM users u, friends f WHERE u.uId=f.uid1 AND f.uid2 = '".$_SESSION[uId]."';";
+                                $friend_sql="SELECT uFirstName, uLastName FROM users u, friends f WHERE u.uId=f.uid1 AND f.uid2 = '".$_SESSION['uId']."';";
                                 $friend_result=$conn->query($friend_sql);
                                 if ($conn && ($friend_result->num_rows>0)) {
                                     while ($friend_row=$friend_result->fetch_assoc()) {
@@ -92,27 +76,51 @@
                                         "<div>
                                             <img src=\"http://via.placeholder.com/80x80px\">
                                             <p>".$friend_row['uFirstName']." ".$friend_row['uLastName']."</p>
-                                        </div>"
+                                        </div>";
                                     }
+                                }
                                 ?>
                             </div>
                             <div role="tabpanel" class="tab-pane active" id="tab_details">
                                 <p>
                                     <?php
-                                        echo $bio;
+                                    $bio_sql="SELECT uBio FROM users where uId = '".$_SESSION['uId']."';";
+                                    $bio_result=$conn->query($bio_sql);
+                                    if ($conn && ($bio_result->num_rows>0)) {
+                                        while ($bio_row=$bio_result->fetch_assoc()) {
+                                            echo $bio_row['uBio'];
+                                        }
+                                    }
                                     ?>
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab_contact">
+                                <p><b>Address</b></p>
                                 <p>
                                     <?php
-                                        echo $address;
+                                    $contact_sql="SELECT uAddress, uContactNo FROM users WHERE uId = '".$_SESSION['uId']."';";
+                                    $contact_result=$conn->query($contact_sql);
+                                    if ($conn && ($contact_result->num_rows>0)) {
+                                        while ($contact_row=$contact_result->fetch_assoc()) {
+                                            echo $contact_row['uAddress'];
+                                        }
+                                    }
+                                    ?>
+                                </p>
+                                <p><b>Contact Number</b></p>
+                                <p>
+                                    <?php
+                                    if ($conn && ($contact_result->num_rows>0)) {
+                                        while ($contact_row=$contact_result->fetch_assoc()) {
+                                            echo $contact_row['uContactNo'];
+                                        }
+                                    }
                                     ?>
                                 </p>
                             </div>
                             <div role=\"tabpanel\" class=\"tab-pane\" id=\"tab_skills\">
                                 <?php
-                                $skill_sql="SELECT uSkill FROM users where uId = '".$_SESSION[uId]."';";
+                                $skill_sql="SELECT sTitle FROM skills s, userSkills u WHERE u.usId=s.sId AND u.uId= '".$_SESSION['uId']."';";
                                 $skill_result=$conn->query($skill_sql);
                                 if ($conn && ($skill_result->num_rows>0)) {
                                     while ($skill_row=$skill_result->fetch_assoc()) {
@@ -122,7 +130,7 @@
                                                     <div class=\"cols-sm-10\">
                                                         <div class=\"input-group\">
                                                             <span class=\"input-group-addon\"><i class=\"fa fa-user fa\" aria-hidden=\"true\"></i></span>
-                                                            <input type=\"text\" class=\"form-control\" name=\"skill\" id=\"skill\"  placeholder=\"".$skill_row['uSkill']."\" readonly/>
+                                                            <input type=\"text\" class=\"form-control\" name=\"skill\" id=\"skill\"  placeholder=\"".$skill_row['sTitle']."\" readonly/>
                                                         </div>
                                                     </div>
                                                 </div>
