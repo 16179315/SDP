@@ -80,6 +80,7 @@
 		<p id = "pwc" class ="d-none">You have not completed the confirm password field.</p>
 		<p id = "pwl" class ="d-none">Your password must be at least 6 characters in length.</p>
 		<p id = "vaN" class ="d-none">Your first or last name is not valid. Please only enter alphabetical characters.</p>
+		<p id = "vaCN" class ="d-none">Your company name is not valid. Please only enter alphabetical characters.</p>
 		<p id = "vaE" class ="d-none">Your email is not valid. Please only enter a valid email.</p>
 		<p id = "pm" class ="d-none">Your passwords do not match.</p>
 	</ol>
@@ -112,7 +113,7 @@
 		<form id="signupForm" action="includes/signup.php" method="POST">
 		<div class="form-group d-none" id="companyNameDiv">
 			<label for="usr">Company Name</label>
-			<input type="text" name="companyName" class="form-control" >
+			<input id = "companyName" type="text" name="companyName" class="form-control" >
 		</div>
 		<div class="form-group" id ="firstNameDiv">
 			<label for="usr">First Name</label>
@@ -143,20 +144,18 @@
 
 
 <script>
-var option = "";
-
-// TODO: Need to change the errors if the user is logging in as a hotel or as a regular user
+sessionStorage.clear();
 $('#signupForm').submit(function(e){
-	if (!$('#firstName').val()) {
-		console.log("s");
+	console.log(sessionStorage.getItem("option"));
+	console.log($('#companyName').val());
+	if (!$('#firstName').val() && (sessionStorage.getItem("option") == "Regular" ||sessionStorage.getItem("option") == null)) {
 		$('#fn').show();
 		$('#fn').removeClass("d-none");
 		error = true;
 	} else {
 		$('#fn').hide();
 	}
-	if (!$('#lastName').val()) {
-		console.log("s");
+	if (!$('#lastName').val() && (sessionStorage.getItem("option") == "Regular" || sessionStorage.getItem("option") == null)) {
 		$('#ln').show();
 		$('#ln').removeClass("d-none");
 		error = true;
@@ -164,7 +163,6 @@ $('#signupForm').submit(function(e){
 		$('#ln').hide();
 	}
 	if (!$('#email').val()) {
-		console.log("s");
 		$('#em').show();
 		$('#em').removeClass("d-none");
 		error = true;
@@ -172,7 +170,6 @@ $('#signupForm').submit(function(e){
 		$('#em').hide();
 	}
 	if (!$('#password').val()) {
-		console.log("s");
 		$('#pw').show();
 		$('#pw').removeClass("d-none");
 		error = true;
@@ -180,7 +177,6 @@ $('#signupForm').submit(function(e){
 		$('#pw').hide();
 	}
 	if (!$('#passwordConfirm').val()) {
-		console.log("s");
 		$('#pwc').show();
 		$('#pwc').removeClass("d-none");
 		error = true;
@@ -188,15 +184,13 @@ $('#signupForm').submit(function(e){
 		$('#pwc').hide();
 	}
 	if ($('#password').val().length < 6 || $('#passwordConfirm').val().length < 6) {
-		console.log("pwl");
 		$('#pwl').show();
 		$('#pwl').removeClass("d-none");
 		error = true;
 	} else {
 		$('#pwl').hide();
 	}
-	if (!($('#firstName').val().match(/^[A-z]+$/)) || !($('#lastName').val().match(/^[A-z]+$/))) {
-		console.log("fn");
+	if (!(($('#firstName').val().match(/^[A-z]+$/)) || !($('#lastName').val().match(/^[A-z]+$/))) && ((sessionStorage.getItem("option") == "Regular" || sessionStorage.getItem("option") == null))) {
 		$('#vaN').show();
 		$('#vaN').removeClass("d-none");
 		error = true;
@@ -204,7 +198,6 @@ $('#signupForm').submit(function(e){
 		$('#vaN').hide();
 	}
 	if (!$('#email').val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-		console.log("email");
 		$('#vaE').show();
 		$('#vaE').removeClass("d-none");
 		error = true;
@@ -212,20 +205,29 @@ $('#signupForm').submit(function(e){
 		$('#vaE').hide();
 	}
 	if (!$('#password').val().match($('#passwordConfirm').val()) || !$('#passwordConfirm').val().match($('#password').val())) {
-		console.log("email");
 		$('#pm').show();
 		$('#pm').removeClass("d-none");
 		error = true;
 	} else {
 		$('#pm').hide();
 	}
-	if (!$('#cn').val()) {
-		console.log("cn");
+	if (!$('#companyName').val() && sessionStorage.getItem("option") == "Hotel") {
 		$('#cn').show();
 		$('#cn').removeClass("d-none");
 		error = true;
 	} else {
 		$('#cn').hide();
+	}
+	if (!($('#companyName').val().match(/^[A-z ]+$/))) {
+		$('#vaCN').show();
+		$('#vaCN').removeClass("d-none");
+		error = true;
+	} else {
+		$('#vaCN').hide();
+	}
+	if (sessionStorage.getItem("option") == "Hotel") {
+		$('#firstName').val('');
+		$('#lastName').val('');
 	}
 	if (error) {
 		$('#errorDiv').removeClass("d-none");
@@ -254,6 +256,7 @@ $('.dropdown-menu a').on('click', function(){
 	var option = $(this).text();
 	document.getElementById("userTypeButton").innerText = option;
 	if (option == "Regular User") {
+		sessionStorage.setItem("option", "Regular");
 		$('#firstNameDiv').fadeIn();
 		$('#lastNameDiv').fadeIn();
 		setTimeout(function(){
@@ -264,7 +267,7 @@ $('.dropdown-menu a').on('click', function(){
 		}, 400);
 	}
 	else if (option == "Hotel" && $("#companyNameDiv").hasClass("d-none")) {
-		var hotelSelected = true;
+		sessionStorage.setItem("option", "Hotel");
 		$('#companyNameDiv').hide();
 		$('#companyNameDiv').removeClass("d-none");
 		$('#companyNameDiv').fadeIn();
