@@ -1,23 +1,29 @@
 <?php
 
 session_start();
+$emptyField = false;
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['login'])) {
 	
-	$dbServerName = "sql11.freemysqlhosting.net:3306";
-	$dbUsername = "sql11225471";
-	$dbPassword = "cbgPE8apID";
-	$dbName = "sql11225471";
-	$conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
+	include 'db.php';
 
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$password = mysqli_real_escape_string($conn, $_POST['password']);
 	
 	
-	if(empty($email) || empty($password)) {
-		header("Location: ../?login=empty");
+	if(empty($email)) {
+		$_SESSION['emailEmpty'] = true;
+		$emptyField = true;
+	}
+	if (empty($password)) {
+		$_SESSION['passwordEmpty'] = true;
+		$emptyField = true;
+	}
+	if ($emptyField) {
+		header("Location: ../?emptyFields");
 		exit();
-	} else {
+	}
+	else {
 		$sql = "SELECT * FROM users WHERE uEmail = '$email';";
 		$result = mysqli_query($conn, $sql);
 		$resultCheck = mysqli_num_rows($result);

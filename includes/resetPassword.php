@@ -1,10 +1,6 @@
 <?php
     if (isset($_GET["email"]) && isset($_GET["token"])) {
-        $dbServerName = "sql11.freemysqlhosting.net:3306";
-        $dbUsername = "sql11225471";
-        $dbPassword = "cbgPE8apID";
-        $dbName = "sql11225471";
-        $conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
+        include 'db.php';
 
         $email = mysqli_real_escape_string($conn, $_GET["email"]);
         $token = mysqli_real_escape_string($conn, $_GET["token"]);

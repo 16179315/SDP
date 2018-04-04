@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="scripts/search.php"></script>
+  
 
 </head>
 <body>
@@ -20,41 +20,42 @@
     </button>
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav ml-auto">
-   
-      <li class="nav-item">
-          <button class="btn btn-success" name ="submit" type="submit">Log out</button>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="includes/logout.php">Forgot password?</a>
+          <form class ="form-inline navbar-form" action="searchResults.php" method="POST">
+            <li class="nav-item">
+              <div class="ddl-select input-group-btn mr-sm-2">
+                <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
+                  <option value="" data-hidden="true" class="ddl-title">Search for</option>
+                  <option value="users">Users</option>
+                  <option value="hotels">Hotels</option>
+                  <option value="vancancies">Vacancies</option>
+                </select>
+              </div>
             </li>
-    </form>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <input type="text" name="data" class="form-control" placeholder="Enter here">
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <button class="btn btn-success" name="search" type="submit">Search</button> 
+              </div>
+            </li>
+          </form>
+          <form class ="form-inline navbar-form" action="includes/logout.php" method="POST">
+            <li class="nav-item">
+                <button class="btn btn-success" name ="submit" type="submit">Log out</button>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="includes/logout.php">Forgot password?</a>
+            </li>
+          </form>
         </ul>
     </div>
 </nav>
 
 <div class ="container">
-    <form action="includes/searchResults.php" method="POST">
-        <div class="row justify-content-center pt-5">
-          <div class="row">
-              <div class="form-horizontal">
-                <div class="input-group">
-                  <div class="ddl-select input-group-btn">
-                    <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
-                      <option value="" data-hidden="true" class="ddl-title">Search for</option>
-                      <option value="users">Users</option>
-                      <option value="organizations">Organizations</option>
-                      <option value="vancancies">Vacancies</option>
-                    </select>
-                  </div>
-                    <input id="txtkey" name="data" class="form-control" placeholder="Enter here" 
-                                            aria-describedby="ddlsearch" type="text">
-                    <input class="btn btn-success" type="submit" role="search" name ="search">
-                </div>
-              </div>
-            </div>
-        </div> 
-      </form>
-  </div>
+  
 </div>
 
 <footer class="footer">

@@ -1,11 +1,7 @@
 <?php
     session_start();
  
-    $dbServerName = "sql11.freemysqlhosting.net:3306";
-    $dbUsername = "sql11225471";
-    $dbPassword = "cbgPE8apID";
-    $dbName = "sql11225471";
-    $conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
+    include 'includes/db.php';
     $uid = $_SESSION['uId'];
     /*
     $bio_sql="SELECT uBio FROM users where uId = '".$_SESSION[uId]."';";

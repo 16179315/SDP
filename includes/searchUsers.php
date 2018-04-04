@@ -7,6 +7,6 @@ $name = "sql11225471";
 
 $conn = mysqli_connect($serverName, $username, $password, $name);
 
-
+mysqli_close($conn);
 
 ?>
