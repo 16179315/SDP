@@ -121,7 +121,7 @@
         <form class="form-horizontal" action="/includes/changeContactNo.php" method="post">
           <div class="form-group">
             <label for="comment">Change Contact Number:</label>
-            <textarea class="form-control" rows="5" id="comment" name="changeContactNo"></textarea>
+            <textarea class="form-control" rows="5" id="comment" name="changeContactNo" id="changeContactNo"></textarea>
             <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
           </div> 
         </form>

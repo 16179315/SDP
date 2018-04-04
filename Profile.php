@@ -96,7 +96,19 @@
             </h2>
         </div>
         <div class="edit-or-add-friend">
-            
+            <?php
+                if(isset($_GET['uId'])) {
+                    echo 
+                    "<form action=\"includes/addFriend.php\">
+                        <input type=\"submit\" value=\"Add Friend\" name=\"addfriend\"/>
+                    </form>";
+                } else {
+                    echo 
+                    "<form action=\"EditProfile.php\">
+                        <input type=\"submit\" value=\"Edit Profile\"/>
+                    </form>";
+                }
+            ?>
         </div>
         <div class="container">
             <div class="col-sm-8">
