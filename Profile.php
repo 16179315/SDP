@@ -34,7 +34,7 @@
                   <option value="" data-hidden="true" class="ddl-title">Search for</option>
                   <option value="users">Users</option>
                   <option value="hotels">Hotels</option>
-                  <option value="vancancies">Vacancies</option>
+                  <option value="vacancies">Vacancies</option>
                 </select>
               </div>
             </li>

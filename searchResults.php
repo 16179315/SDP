@@ -34,7 +34,7 @@
                 }
             }
             
-           
+            echo "$searchInput";
              mysqli_close($conn);
         }
 ?>
