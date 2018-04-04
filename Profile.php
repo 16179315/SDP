@@ -99,7 +99,7 @@
             <?php
                 if(isset($_GET['uId'])) {
                     echo 
-                    "<form action=\"includes/addFriend.php\">
+                    "<form action=\"includes/addFriend.php?uId=".$_GET['uId']."\">
                         <input type=\"submit\" value=\"Add Friend\" name=\"addfriend\"/>
                     </form>";
                 } else {

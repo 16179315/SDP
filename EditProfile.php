@@ -2,10 +2,12 @@
   session_start();
   include 'includes/db.php';
 
+  /*
   if($_GET['del']) {
     $delete_skill_sql="DELETE FROM userSkills WHERE uId=".$_SESSION['uId']." AND sId=".$deleteSkillId;
     $result=mysql_query($delete_skill_sql);
   }
+  */
 ?>
 
 <!DOCTYPE html>
@@ -61,9 +63,10 @@
 
 
     <div>
+      <!--
       <div class="col-md-4">
-    		<div class="form-group">
-    			<label for="comment">Skills:</label>
+        <div class="form-group">
+          <label for="comment">Skills:</label>
           <?php
           $skill_sql="SELECT sTitle, sId FROM skills s, userSkills u WHERE u\.sId=s\.sId AND u\.uId= '".$_SESSION['uId']."';";
           $skill_result=$conn->query($skill_sql);
@@ -90,23 +93,19 @@
               ?>
               <input type="submit" name="submit">
             </form>
-          </div>
-    			<button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
-  		  </div> 
+          </div> 
+          <button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
+        </div> 
       </div>
+       -->
       <div class="col-md-4">
-  		  <div class="form-group">
-    			<label for="comment">Qualifications:</label>
-    			<textarea class="form-control" rows="5" id="comment"></textarea>
-    			<button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
-  		  </div> 
-  	  </div>
-      <div class="col-md-4">
-    		<div class="form-group">
-    			<label for="comment">Employment History:</label>
-    			<textarea class="form-control" rows="5" id="comment"></textarea>
-    			<button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
-    		</div> 
+        <form class="form-horizontal" action="/includes/addSkill.php" method="post"></form>
+          <div class="form-group">
+            <label for="comment">Skills:</label>
+            <textarea class="form-control" rows="5" id="comment" name="addSkill" id="addSkill"></textarea>
+            <button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
+          </div> 
+        </div>
       </div>
       <div class="col-md-4">
         <form class="form-horizontal" action="/includes/changeAddress.php" method="post">
