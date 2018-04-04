@@ -218,7 +218,7 @@ $('#signupForm').submit(function(e){
 	} else {
 		$('#cn').hide();
 	}
-	if (!($('#companyName').val().match(/^[A-z ]+$/))) {
+	if (!($('#companyName').val().match(/^[A-z ]+$/)) && sessionStorage.getItem("option") == "Hotel") {
 		$('#vaCN').show();
 		$('#vaCN').removeClass("d-none");
 		error = true;
