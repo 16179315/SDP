@@ -21,7 +21,7 @@
                                                     "WHERE hName LIKE" . "'%"."$searchInput"."%';");
                 while($row = mysqli_fetch_row($query))
                 {
-                    printf("<ul><li>%s\n</li></ul>", $row[0]);
+                    printf("<ul><li>%s\n</li></ul>", $row[1]);
                 }
 
             }else if($dropDownValue == "Vacancies") {
@@ -35,6 +35,7 @@
             }
            
              echo "$dropDownValue";
+             echo "$searchInput";
              mysqli_close($conn);
         }
 ?>
