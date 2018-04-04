@@ -9,9 +9,9 @@
             
             $users = "Users";
             $hotels = "Hotels";
-            $vacancies = "Vacancies"
+            $vacancies = "Vacancies";
 
-            if (strcmp($dropDownValue, $users) == 0) {
+            if(strcmp($dropDownValue, $users) == 0) {
                 echo "$dropDownValue";
                 $query = mysqli_query($conn, "SELECT uFirstName FROM users " . 
                                                     "WHERE uFirstName LIKE" . "'%"."$searchInput"."%';");
@@ -21,8 +21,7 @@
                     printf("<ul><li>%s\n</li></ul>", $row[0]);
                 }
 
-            }
-            if (strcmp($dropDownValue, $hotels) == 0) {
+            }elseif (strcmp($dropDownValue, $hotels) == 0) {
                 $query = mysqli_query($conn, "SELECT hName FROM hotels" . 
                                                     "WHERE hName LIKE" . "'%"."$searchInput"."%';");
                 while($row = mysqli_fetch_row($query))
@@ -30,8 +29,7 @@
                     printf("<ul><li>%s\n</li></ul>", $row[1]);
                 }
 
-            }
-            if(strcmp($dropDownValue, $vacancies) == 0) {
+            }elseif(strcmp($dropDownValue, $vacancies) == 0) {
                 $query = mysqli_query($conn, "SELECT vName FROM vacancies " . 
                                                 "WHERE vName LIKE" . "'%"."$searchInput"."%';");
 
