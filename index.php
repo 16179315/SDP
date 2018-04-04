@@ -5,19 +5,18 @@
 	$passwordCSS = '';
 	$loginError = array();
 
-	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-		$url = "../profile.php?uId=".$_SESSION['uId'];
-		header("Location: ".$url);
-		exit();
-	}
-
-	if (isset($_SESSION['emailEmpty']) && $_SESSION['emailEmpty'] == true) {
-		$emailCSS = "border-color: red;";
-	}
-
-	if (isset($_SESSION['passwordEmpty']) && $_SESSION['passwordEmpty'] == true) {
-		$passwordCSS = "border-color: red;";
-	}
+	if (isset($_SESSION['userLoggedIn']) || isset($_SESSION['hotelLoggedIn'])) {
+        if($_SESSION['userLoggedIn'] == true) {
+            $url = "Location:../profile.php?uId=".$_SESSION['uId'];
+            header("Location: ".$url);
+            exit();
+        }
+        if($_SESSION['hotelLoggedIn'] == true) {
+            $url = "Location:../hotel.php?hId=".$_SESSION['hId'];
+            header("Location: ".$url);
+            exit();
+        }
+    }
 
 	unset($_SESSION['emailEmpty']);
 	unset($_SESSION['passwordEmpty']);
