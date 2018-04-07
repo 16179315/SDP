@@ -24,6 +24,8 @@
     
                 $sql = "UPDATE users SET uPassword='$hashedPassword', token='' WHERE uEmail='$email';";
                 mysqli_query($conn, $sql);
+
+                echo "Your new password is: $password";
             }
             else {
                 $a = "qwertyuiopasdfghjklzxcvbnm";
