@@ -111,11 +111,6 @@
                     $result2 = mysqli_query($conn, $sql2);
                     while ($row2 = mysqli_fetch_assoc($result2)) { ?>
                         <div class = "d-flex flex-column">
-                        <div class = "d-flex flex-column p-2">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-user"></span> Add Friend
-                            </button>
-                        </div>
                         <div class = "d-flex flex-column p-2"><?php
                             $sql3 = "SELECT img FROM userImage WHERE uId = ".$row2['uId'].";";
                             $result3 = mysqli_query($conn, $sql3);
@@ -125,6 +120,12 @@
                             echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData.'">';
                         ?></div>
                         <div class = "d-flex flex-column p-2"><?php echo $row2["uFirstName"]; echo " "; echo $row2["uLastName"];?></div>
+                        <div class = "d-flex flex-column p-2">
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-user"></span> Add Friend
+                            </button>
+                        </div>
+                        <hr width="100%">
                     <?php } ?>
                     <div>
                 </div>
