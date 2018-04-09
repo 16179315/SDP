@@ -1,11 +1,17 @@
 <?php
     session_start();
+
+    if (!(isset($_SESSION['userLoggedIn']) || isset($_SESSION['hotelLoggedIn']))) {
+        header("Location: ../index.php");
+        exit();
+    }
 ?>
 
 
 <!doctype html>
 <html lang="en">
   <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -25,7 +31,16 @@
       <ul class="navbar-nav ml-auto">
       <form class ="form-inline navbar-form" action="includes/login.php" method="POST" novalidate="novalidate">
         <li class="nav-item">
-        <a class="nav-link" href="profile.php">Profile</a>
+        <?php if($_SESSION['userLoggedIn'] == true) {
+            $url = "profile.php?uId=".$_SESSION['uId'];
+            echo "<a class=\"nav-link\" href="."$url".">Profile</a>";
+        }
+        else if($_SESSION['hotelLoggedIn'] == true) {
+            $url = "hotel.php?hId=".$_SESSION['hId'];
+            echo "<a class=\"nav-link\" href="."$url".">Profile</a>";
+        }
+        ?>
+        
         </li>
           <li class="nav-item">
           <a class="nav-link" href="#">Jobs</a>
@@ -45,7 +60,15 @@
         <div class="row">
             <div class = "col-lg-2">
                 <div class = "p-2">
-                    <div class = "p-2"><img class="profile-picture" src="http://via.placeholder.com/120/aa5555/000000"></div>
+                    <div class = "p-2"><?php
+                    include 'includes/db.php';
+                    $sql4 = "SELECT img FROM userImage WHERE uId = ".$_SESSION['uId'].";";
+                    $result4 = mysqli_query($conn, $sql4);
+                    $imageRow1 = mysqli_fetch_assoc($result4);
+                    $image1 = $imageRow1["img"];
+                    $imageData1 = base64_encode(file_get_contents($image1));
+                    echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData1.'">';
+                    ?></div>
                     <div class = "p-2">
                         <?php
                             if(isset($_SESSION['uFirst'])) {
@@ -64,47 +87,45 @@
                         $sql = "SELECT * FROM vacancies;";
                         $result = mysqli_query($conn, $sql);
                         while ($row = mysqli_fetch_assoc($result)) { ?>
-                            <div class = "p-2"><?php echo $row["vName"]; echo " "; echo $row['vDescr']; ?></div>
+                        <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $row["vName"];?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php
+                                    $sql1 = "SELECT hName FROM hotels NATURAL JOIN vacancies WHERE vId = ".$row["vId"].";";
+                                    $result1 = mysqli_query($conn, $sql1);
+                                    $row1 = mysqli_fetch_assoc($result1);
+                                    echo $row1["hName"];
+                                ?></h6>
+                                <p class="card-text"><?php echo $row["vDescr"];?></p>
+                                <a href="#" class="card-link">Link to vacancy</a>
+                            </div>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
-            <div class = "col-xs-2">
+            <div class = "col-xs-2 ml-2">
                 <div class = "d-flex flex-column p-2">
-                    <div class = "d-flex flex-column">
+                <?php
+                    include 'includes/db.php';
+                    $sql2 = "SELECT * FROM users WHERE uId <> ".$_SESSION['uId']." AND uId NOT IN (SELECT uid2 FROM friends WHERE uid1 = ".$_SESSION['uId'].") ;";
+                    $result2 = mysqli_query($conn, $sql2);
+                    while ($row2 = mysqli_fetch_assoc($result2)) { ?>
+                        <div class = "d-flex flex-column">
                         <div class = "d-flex flex-column p-2">
                             <button type="button" class="btn btn-default">
                                 <span class="glyphicon glyphicon-user"></span> Add Friend
                             </button>
                         </div>
-                        <div class = "d-flex flex-column p-2"><img class="profile-picture" src="http://via.placeholder.com/120/aa5555/000000"></div>
-                        <div class = "d-flex flex-column p-2">Name</div>
-                    <div>
-                    <div class = "d-flex flex-column">
-                        <div class = "d-flex flex-column p-2">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-user"></span> Add Friend
-                            </button>
-                        </div>
-                        <div class = "d-flex flex-column p-2"><img class="profile-picture" src="http://via.placeholder.com/120/aa5555/000000"></div>
-                        <div class = "d-flex flex-column p-2">Name</div>
-                    <div>
-                    <div class = "d-flex flex-column">
-                        <div class = "d-flex flex-column p-2">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-user"></span> Add Friend
-                            </button>
-                        </div>
-                        <div class = "d-flex flex-column p-2"><img class="profile-picture" src="http://via.placeholder.com/120/aa5555/000000"></div>
-                        <div class = "d-flex flex-column p-2">Name</div>
-                    <div>
-                    <div class = "d-flex flex-column">
-                        <div class = "d-flex flex-column p-2">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-user"></span> Add Friend
-                            </button>
-                        </div>
-                        <div class = "d-flex flex-column p-2"><img class="profile-picture" src="http://via.placeholder.com/120/aa5555/000000"></div>
-                        <div class = "d-flex flex-column p-2">Name</div>
+                        <div class = "d-flex flex-column p-2"><?php
+                            $sql3 = "SELECT img FROM userImage WHERE uId = ".$row2['uId'].";";
+                            $result3 = mysqli_query($conn, $sql3);
+                            $imageRow = mysqli_fetch_assoc($result3);
+                            $image = $imageRow["img"];
+                            $imageData = base64_encode(file_get_contents($image));
+                            echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData.'">';
+                        ?></div>
+                        <div class = "d-flex flex-column p-2"><?php echo $row2["uFirstName"]; echo " "; echo $row2["uLastName"];?></div>
+                    <?php } ?>
                     <div>
                 </div>
             </div>
