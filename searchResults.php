@@ -59,6 +59,8 @@
 
                 while($row = mysqli_fetch_row($query))
                 {
+                    $hotelNameQuery = mysqli_query($conn, "SELECT hName FROM hotels WHERE hId = $row[2];");
+                    $nameResult = mysqli_fetch_row($hotelNameQuery);
                     printf("<table>
                               <tr>
                                 <th>Vacancy Type</th>
@@ -70,11 +72,11 @@
                               <tr>
                                 <td>%s</td>
                                 <td>%s</td>
-                                <td>hotel</td>
+                                <td>%s</td>
                                 <td>%s</td>
                                 <td>%d</td>
                               </tr>
-                            </table></br>", $row[0],$row[1],$row[3],$row[4]);
+                            </table></br>", $row[0],$row[1],$nameResult[0],$row[3],$row[4]);
                 }
             }
             
