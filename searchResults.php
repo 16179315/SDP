@@ -8,9 +8,8 @@
             $dropDownValue = mysqli_real_escape_string($conn, $_POST["dropDown"]);
 
             if(strcmp($dropDownValue, "users") == 0) {
-                $query = mysqli_query($conn, "SELECT uFirstName FROM users " . 
+                $query = mysqli_query($conn, "SELECT uFirstName,uLastName,uEmail,uContactNo,uAddress FROM users " . 
                                                     "WHERE uFirstName LIKE" . "'%"."$searchInput"."%';");
-                var_dump($query);
 
                 while($row = mysqli_fetch_row($query))
                 {   
@@ -20,18 +19,20 @@
                                 <th>Email</th>
                                 <th>Contact No</th>
                                 <th>Address</th>
+                                <th>Add Connection</th>
                               </tr>
                               <tr>
+                                <td>%s %s</td>
                                 <td>%s</td>
-                                <td>email</td>
-                                <td>contact no</td>
-                                <td>address</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td><button>Add</button></td>
                               </tr>
-                            </table></br>", $row[0]);
+                            </table></br>", $row[0], $row[1], $row[2], $row[3],$row[4]);
                 }
 
             }elseif (strcmp($dropDownValue, "hotels") == 0) {
-                $query = mysqli_query($conn, "SELECT hName FROM hotels " . 
+                $query = mysqli_query($conn, "SELECT hName,contactNo,email,address FROM hotels " . 
                                                     "WHERE hName LIKE" . "'%"."$searchInput"."%';");
 
                 while($row = mysqli_fetch_row($query))
@@ -45,15 +46,15 @@
                               </tr>
                               <tr>
                                 <td>%s</td>
-                                <td>address</td>
-                                <td>email</td>
-                                <td>telephone</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
                               </tr>
-                            </table></br>", $row[0]);
+                            </table></br>", $row[0],$row[3],$row[2],$row[1]);
                 }
 
             }elseif(strcmp($dropDownValue, "vacancies") == 0) {
-                $query = mysqli_query($conn, "SELECT vName FROM vacancies " . 
+                $query = mysqli_query($conn, "SELECT vName,vDescr,hId,status,amount FROM vacancies " . 
                                                 "WHERE vName LIKE" . "'%"."$searchInput"."%';");
 
                 while($row = mysqli_fetch_row($query))
@@ -68,12 +69,12 @@
                               </tr>
                               <tr>
                                 <td>%s</td>
-                                <td>description</td>
+                                <td>%s</td>
                                 <td>hotel</td>
-                                <td>status</td>
-                                <td>salary</td>
+                                <td>%s</td>
+                                <td>%d</td>
                               </tr>
-                            </table></br>", $row[0]);
+                            </table></br>", $row[0],$row[1],$row[3],$row[4]);
                 }
             }
             

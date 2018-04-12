@@ -12,10 +12,29 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
+
 th, td {
     padding: 5px;
     text-align: left;    
 }
+
+table{
+  margin-left: 15%;
+}
+
+th{
+  background-color: #5cb85c;
+}
+
+td{
+  background-color: #85e085;
+}
+
+button{
+  background-color: #00ccff;
+  color: #000000;
+}
+
 
 .footer {
   position: absolute;
