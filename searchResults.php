@@ -78,6 +78,10 @@
                               </tr>
                             </table></br>", $row[0],$row[1],$nameResult[0],$row[3],$row[4]);
                 }
+            }elseif (strcmp($dropDownValue, "skills") == 0) {
+                $sidQuery = mysqli_query($conn, "SELECT sId FROM skills " .  
+                                                    "WHERE sTitle LIKE" . "'%"."$searchInput"."%';");
+                var_dump($sidQuery);
             }
             
              mysqli_close($conn);
