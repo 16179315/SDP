@@ -17,6 +17,21 @@
                 $profile_lastname = $profile_lastname_row['uLastName'];
             }
         }
+    }  else {
+        $profile_firstname_sql="SELECT uFirstName FROM users where uId = '".$_SESSION['uId']."';";
+        $profile_firstname_result=$conn->query($profile_firstname_sql);
+        if ($conn && ($profile_firstname_result->num_rows>0)) {
+            while ($profile_firstname_row=$profile_firstname_result->fetch_assoc()) {
+                $profile_firstname = $profile_firstname_row['uFirstName'];
+            }
+        }
+        $profile_lastname_sql="SELECT uLastName FROM users where uId = '".$_SESSION['uId']."';";
+        $profile_lastname_result=$conn->query($profile_lastname_sql);
+        if ($conn && ($profile_lastname_result->num_rows>0)) {
+            while ($profile_lastname_row=$profile_lastname_result->fetch_assoc()) {
+                $profile_lastname = $profile_lastname_row['uLastName'];
+            }
+        }
     }
 ?>
  
@@ -24,11 +39,7 @@
 <head>
     <title>
         <?php
-        if(isset($_GET['uId'])) {
             echo $profile_firstname." ".$profile_lastname;
-        } else {
-            echo $_SESSION['uFirst']." ".$_SESSION['uLast'];
-        }
         ?>
     </title>
     <meta charset="utf-8">
@@ -87,11 +98,7 @@
         <div class="name">
             <h2>
                 <?php
-                    if(isset($_GET['uId'])) {
-                        echo $profile_firstname." ".$profile_lastname;
-                    } else {
-                        echo $_SESSION['uFirst']." ".$_SESSION['uLast'];
-                    }
+                    echo $profile_firstname." ".$profile_lastname;
                 ?>
             </h2>
         </div>
@@ -141,10 +148,9 @@
                                     } else {
                                         $bio_sql="SELECT uBio FROM users where uId = '".$_SESSION['uId']."';";
                                     }
-                                    $bio_result=mysql_query($conn, $bio_sql);
+                                    $bio_result=mysqli_query($conn, $bio_sql) or die(mysqli_error($conn));
                                     $resultCheck = mysqli_num_rows($bio_result);
                                     if ($resultCheck<1) {
-                                        header("Location:../?login=no_user");
                                         exit();
                                     } else {
                                         while ($bio_row=$bio_result->fetch_assoc()) {
@@ -156,26 +162,31 @@
                             </div>
                             <div role="tabpanel" class="tab-pane active" id="tab_details">
                                 <?php
-                                $friend_sql="";
-                                if(isset($_GET['uId'])) {
-                                    $friend_sql="SELECT uId, uFirstName, uLastName FROM users u, friends f WHERE u\.uId=f\.uid1 AND f\.uid2 = '".$_GET['uId']."';";
-                                } else {
-                                    $friend_sql="SELECT uId, uFirstName, uLastName FROM users u, friends f WHERE u\.uId=f\.uid1 AND f\.uid2 = '".$_SESSION['uId']."';";
-                                }
-                                $friend_result=mysql_query($conn, $friend_sql);
+                                    $friend_sql="";
+                                    $friend_array=array();
+                                    if(isset($_GET['uId'])) {
+                                        $friend_sql="SELECT uId, uFirstName, uLastName FROM users, friends WHERE uId=uid2 AND uid1 = '".$_GET['uId']."';";
+                                    } else {
+                                        $friend_sql="SELECT uId, uFirstName, uLastName FROM users, friends WHERE uId=uid2 AND uid1 = '".$_SESSION['uId']."';";
+                                    }
+                                    $friend_result=mysqli_query($conn, $friend_sql) or die(mysqli_error($conn));
                                     $resultCheck = mysqli_num_rows($friend_result);
                                     if ($resultCheck<1) {
-                                        header("Location:../?login=no_user");
                                         exit();
                                     } else {
-                                    while ($friend_row=$friend_result->fetch_assoc()) {
-                                        echo
-                                        "<div>
-                                            <img src=\"http://via.placeholder.com/80x80px\">
-                                            <a href=\"Profile.php?uId=".$friend_row['uId']."\">".$friend_row['uFirstName']." ".$friend_row['uLastName']."</p>
-                                        </div>";
+                                        $i=0;
+                                        while ($friend_row=$friend_result->fetch_assoc()) {
+                                            $friend_array[$i]=
+                                            "<div>
+                                                <img src=\"http://via.placeholder.com/80x80px\">
+                                                <a href=\"Profile.php?uId=".$friend_row['uId']."\">".$friend_row['uFirstName']." ".$friend_row['uLastName']."</p>
+                                            </div>";
+                                            $i++;
+                                        }
                                     }
-                                }
+                                    for($x=0; $x<count($friend_array); $x++) {
+                                        echo $friend_array[$x];
+                                    }
                                 ?>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab_contact">
@@ -188,10 +199,9 @@
                                     } else {
                                         $contact_sql="SELECT uAddress, uContactNo FROM users WHERE uId = '".$_SESSION['uId']."';";
                                     }
-                                    $contact_result=mysql_query($conn, $contact_sql);
+                                    $contact_result=mysqli_query($conn, $contact_sql) or die(mysqli_error($conn));
                                     $resultCheck = mysqli_num_rows($contact_result);
                                     if ($resultCheck<1) {
-                                        header("Location:../?login=no_user");
                                         exit();
                                     } else {
                                         while ($contact_row=$contact_result->fetch_assoc()) {
@@ -203,10 +213,9 @@
                                 <p><b>Contact Number</b></p>
                                 <p>
                                     <?php
-                                    $contact_result=mysql_query($conn, $contact_sql);
+                                    $contact_result=mysqli_query($conn, $contact_sql) or die(mysqli_error($conn));
                                     $resultCheck = mysqli_num_rows($contact_result);
                                     if ($resultCheck<1) {
-                                        header("Location:../?login=no_user");
                                         exit();
                                     } else {
                                         while ($contact_row=$contact_result->fetch_assoc()) {
@@ -220,14 +229,13 @@
                                 <?php
                                 $skill_sql="";
                                 if(isset($_GET['uId'])) {
-                                    $skill_sql="SELECT sTitle FROM skills s, userSkills u WHERE u.sId=s.sId AND u.uId= '".$_GET['uId']."';";
+                                    $skill_sql="SELECT sTitle FROM skills NATURAL JOIN userSkills WHERE uId= '".$_GET['uId']."';";
                                 } else {
-                                    $skill_sql="SELECT sTitle FROM skills s, userSkills u WHERE u.sId=s.sId AND u.uId= '".$_SESSION['uId']."';";
+                                    $skill_sql="SELECT sTitle FROM skills NATURAL JOIN userSkills WHERE uId= '".$_SESSION['uId']."';";
                                 }
-                                $skill_result=mysql_query($conn, $skill_sql);
+                                $skill_result=mysqli_query($conn, $skill_sql) or die(mysqli_error($conn));
                                     $resultCheck = mysqli_num_rows($skill_result);
                                     if ($resultCheck<1) {
-                                        header("Location:../?login=no_user");
                                         exit();
                                     } else {
                                     while ($skill_row=$skill_result->fetch_assoc()) {
