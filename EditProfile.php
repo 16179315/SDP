@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="col-md-4">
-        <form class="form-horizontal" action="/includes/changeAddress.php" method="post">
+        <?php echo "<form class=\"form-horizontal\" action=\"includes/changeAddress.php?uId=".$_GET['uId']."\" method=\"post\">"?>
           <div class="form-group">
             <label for="comment">Change Address:</label>
-            <textarea class="form-control" rows="5" id="comment" name="changeAddress"></textarea>
+            <input class="form-control" type="text" id="changeAddress" name="changeAddress"></input>
             <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
           </div> 
         </form>
