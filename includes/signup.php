@@ -15,6 +15,12 @@ if (isset($_POST['signup'])) {
 		//Create the user entry in the DB
 		$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
 		mysqli_query($conn, $sql);
+		$sql2 = "SELECT uId from users WHERE uEmail = '$email';";
+		echo $sql2;
+		$result = mysqli_query($conn, $sql2);
+		$row = mysqli_fetch_assoc($result);
+		$sql3 = "INSERT INTO userImage(uId, img) VALUES (".$row['uId'].", 'default.jpg');";
+		mysqli_query($conn, $sql3);
 		header("Location: ..?signupUser=success");
 		$_SESSION['accountCreated'] = true;
 		exit();

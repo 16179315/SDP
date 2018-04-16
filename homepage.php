@@ -40,18 +40,40 @@
             echo "<a class=\"nav-link\" href="."$url".">Profile</a>";
         }
         ?>
-        
         </li>
+        </form>
           <li class="nav-item">
           <a class="nav-link" href="#">Jobs</a>
         </li>
           <li class="nav-item">
-                <a class="nav-link" href="#">Connections</a>
+                <a class="nav-link" href="connections.php">Connections</a>
             </li>
+        <form class ="form-inline navbar-form" action="searchResults.php" method="POST">
+            <li class="nav-item">
+              <div class="ddl-select input-group-btn mr-sm-2">
+                <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
+                  <option value="" data-hidden="true" class="ddl-title">Search for</option>
+                  <option value="users">Users</option>
+                  <option value="hotels">Hotels</option>
+                  <option value="vacancies">Vacancies</option>
+                  <option value="skills">Skills</option>
+                </select>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <input type="text" name="data" class="form-control" placeholder="Enter here">
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <button class="btn btn-success" name="search" type="submit">Search</button> 
+              </div>
+            </li>
+          </form>
           <li class="nav-item">
                   <a class="btn btn-primary" role="button" href="includes/logout.php">Log out</a>
           </li>
-      </form>
       </ul>
   </div>
 </nav>
@@ -66,8 +88,10 @@
                     $result4 = mysqli_query($conn, $sql4);
                     $imageRow1 = mysqli_fetch_assoc($result4);
                     $image1 = $imageRow1["img"];
-                    $imageData1 = base64_encode(file_get_contents($image1));
-                    echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData1.'">';
+                    $dirName1 = "images/profile/".$image1;
+                    echo '<img class="profile-picture" src="'.$dirName1.'" />';
+                    //$imageData1 = base64_encode(file_get_contents($image1));
+                    //echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData1.'">';
                     ?></div>
                     <div class = "p-2">
                         <?php
@@ -116,14 +140,14 @@
                             $result3 = mysqli_query($conn, $sql3);
                             $imageRow = mysqli_fetch_assoc($result3);
                             $image = $imageRow["img"];
-                            $imageData = base64_encode(file_get_contents($image));
-                            echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData.'">';
+                            $dirName = "images/profile/".$image;
+                            echo '<img class="profile-picture" src="'.$dirName.'" />';
+                            //$imageData = base64_encode(file_get_contents($image));
+                            //echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData.'">';
                         ?></div>
                         <div class = "d-flex flex-column p-2"><?php echo $row2["uFirstName"]; echo " "; echo $row2["uLastName"];?></div>
                         <div class = "d-flex flex-column p-2">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-user"></span> Add Friend
-                            </button>
+                        <a class="btn btn-outline-primary" href="addConnection.php?uId2=<?= $row2['uId']?>" role="button">Add connection</a>
                         </div>
                         <hr width="100%">
                     <?php } ?>
