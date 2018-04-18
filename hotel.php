@@ -42,19 +42,47 @@
 <!------ Include the above in your HEAD tag ---------->
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand abs" href="../index.php">HoteledInn</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="collapsingNavbar">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="includes/logout.php">Log Out</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand abs" href="homepage.php">HoteledInn</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav ml-auto">
+          <form class ="form-inline navbar-form" action="searchResults.php" method="POST">
+            <li class="nav-item">
+              <div class="ddl-select input-group-btn mr-sm-2">
+                <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
+                  <option value="" data-hidden="true" class="ddl-title">Search for</option>
+                  <option value="users">Users</option>
+                  <option value="hotels">Hotels</option>
+                  <option value="vacancies">Vacancies</option>
+                  <option value="skills">Skills</option>
+                </select>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <input type="text" name="data" class="form-control" placeholder="Enter here">
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <button class="btn btn-success" name="search" type="submit">Search</button> 
+              </div>
+            </li>
+          </form>
+          <form class ="form-inline navbar-form" action="includes/logout.php" method="POST">
+            <li class="nav-item">
+                <button class="btn btn-success" name ="submit" type="submit">Log out</button>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="includes/logout.php">Forgot password?</a>
+            </li>
+          </form>
+        </ul>
+    </div>
+</nav>
 <div class="container">
     <div class="row profile">
 		<div class="col-4">
