@@ -71,7 +71,7 @@
 
 <div class="container">
     <div class="row profile">
-		<div class="col-4">
+		<div class="col-md-4">
 			<div class="profile-sidebar" style="  border-radius: 25px;
 												border: 2px solid green">
 				<!-- SIDEBAR USERPIC -->
@@ -157,11 +157,6 @@
 							<a href="#">
 							<i class="glyphicon glyphicon-user"></i>
 							Account Settings </a>
-						</li>
-						<li>
-							<a href="homepage.php" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Home</a>
 						</li>
 					</ul>
 				</div>
@@ -299,6 +294,48 @@
 		<button type="submit" class="btn btn-primary" style="background-color: green">Add Vacancy</button>
     </div>
   </div>
+</form>
+<h3>Delete a Menu</h3>
+<form action="includes/deleteMenu.php" method="POST">
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputMenuName">Menu Name</label>
+      <input type="text" class="form-control" name="inputMenuName" placeholder="Menu Name">
+    </div>
+	</div>
+    <div class="form-group col-md-6">    
+		<button type="submit" class="btn btn-primary" style="background-color: green">Delete Menu</button>
+    </div>
+</form>
+<h3>Delete an Award</h3>
+<form action="includes/deleteAward.php" method="POST">
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputAwardName">Award Name</label>
+      <input type="text" class="form-control" name="inputAwardName" placeholder="Award Name">
+    </div>
+	</div>
+    <div class="form-group col-md-6">    
+		<button type="submit" class="btn btn-primary" style="background-color: green">Delete Award</button>
+    </div>
+
+</form>
+<h3>Delete a Vacancy</h3>
+<form action="includes/deleteVacancy.php" method="POST">
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputVacancyName">Vacancy Name</label>
+      <input type="text" class="form-control" name="inputVacancyName" placeholder="Vacancy Name">
+    </div>
+	</div>
+    <div class="form-group col-md-6">    
+		<button type="submit" class="btn btn-primary" style="background-color: green">Delete Vacancy</button>
+    </div>
+
+</form>
 </form>
 
 </body>
