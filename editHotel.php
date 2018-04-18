@@ -76,7 +76,17 @@
 												border: 2px solid green">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="http://via.placeholder.com/120/aa5555/000000" class="img-responsive" alt="">
+				<?php
+
+				 $sql = "select hImg from hotelImage where hId='".$_GET['hId']."';";
+				 $result = mysqli_query($conn,$sql);
+				 $row = mysqli_fetch_array($result);
+			     $image_src = "includes/upload/hotelImages/";
+				 $image_src = $image_src."".$row['hImg'];
+				 
+				?>
+				<img src='<?php echo $image_src; ?>' >
+				
 	</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -149,7 +159,7 @@
 							Account Settings </a>
 						</li>
 						<li>
-							<a href="home.php" target="_blank">
+							<a href="homepage.php" target="_blank">
 							<i class="glyphicon glyphicon-ok"></i>
 							Home</a>
 						</li>
@@ -163,19 +173,12 @@
 <div class="container">
  <div class="row">
   <div class="col-md-7">
-    <div class="form-group">
-        <label>Upload Image</label>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default btn-file" >
-                    Browse… <input type="file" id="imgInp">
-                </span>
-            </span>
-            <input type="text" class="form-control" readonly>
-        </div>
-        <img id='img-upload'/>
-    	</div>
-	</div>
+<form method="post" action="includes/uploadImage.php" enctype='multipart/form-data'>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+
+  <input type='file' name='file' />
+  <input type='submit' value='Upload Image' name='but_upload'>
+</form>
 </div>
 </div>
 	
