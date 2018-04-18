@@ -85,7 +85,7 @@
 </nav>
 <div class="container">
     <div class="row profile">
-		<div class="col-4">
+		<div class="col-md-4">
 			<div class="profile-sidebar" style="  border-radius: 25px;
 												border: 2px solid green">
 				<!-- SIDEBAR USERPIC -->
@@ -215,18 +215,13 @@
 							<i class="glyphicon glyphicon-user"></i>
 							Account Settings </a>
 						</li>
-						<li>
-							<a href="homepage.php" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Home</a>
-						</li>
 					</ul>
 				</div>
 				<!-- END MENU -->
 			</div>
 		</div>
 		
-		<div class="col-md-4">
+		<div class="col-md-md-4">
 			   <h2 style= "color:green";>Availible Vacancys </h2>
 			   <?php
 					if(isset($_GET['hId'])) {
@@ -278,7 +273,7 @@
 			   
 			   ?>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-md-4">
 			<div>
 			   <h2 style= "color:green";>Awards Received</h2>
 			   <?php
@@ -324,7 +319,7 @@
 		</div>
 	</div>
 	</div>
-	<div class="col-md-12">
+	<div class="col-md-md-12">
 	<div>
 		   <h2 style= "color:green";>Menus on display</h2>
 			   <?php
