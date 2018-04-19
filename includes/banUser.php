@@ -1,7 +1,5 @@
 <?php 
 session_start();
-// TO DO user cant log in if banned
-// TO DO if user is an admin show 'admin' link or something
 if (isset($_POST['banhammerPerm']) && isset($_POST['option'])) {
     include "db.php";
     preg_match_all('!\d+!', $_POST['option'], $matches);
