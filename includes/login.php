@@ -52,12 +52,23 @@ if (isset($_POST['login'])) {
 					exit();
 				}
 				else {
-				$_SESSION['uId'] = $row[uId];
-				$_SESSION['uFirst'] = $row[uFirstName];
-				$_SESSION['userLoggedIn'] = true;
-				$url = "../homepage.php";
-				header("Location: ".$url);
-				exit();
+				$sql10 = "SELECT uAdmin FROM users WHERE uId = ".$row[uId]."";
+				$result10 = mysqli_query($conn, $sql10);
+				$row10 = mysqli_fetch_assoc($result10);
+				if ($row10[uAdmin] == 1) {
+					$_SESSION['adminLoggedIn'] = true;
+					$url = "../admin.php";
+					header("Location: ".$url);
+					exit();
+				}
+				else {
+					$_SESSION['uId'] = $row[uId];
+					$_SESSION['uFirst'] = $row[uFirstName];
+					$_SESSION['userLoggedIn'] = true;
+					$url = "../homepage.php";
+					header("Location: ".$url);
+					exit();
+				}
 			}
 			}
 		}
@@ -76,7 +87,7 @@ if (isset($_POST['login'])) {
 			} elseif ($hashedPasswordCheck == true) {
 				$_SESSION['hId'] = $row[hId];
 				$_SESSION['hotelLoggedIn'] = true;
-				$url = "../hotel.php";
+				$url = "../hotel.php?hId=".$_SESSION['hId'];
 				header("Location: ".$url);
 				exit();
 			}
