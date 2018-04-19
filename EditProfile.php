@@ -61,43 +61,8 @@
   	
   	</div>
 
-
+<!--
     <div>
-      <!--
-      <div class="col-md-4">
-        <div class="form-group">
-          <label for="comment">Skills:</label>
-          <?php
-          $skill_sql="SELECT sTitle, sId FROM skills s, userSkills u WHERE u\.sId=s\.sId AND u\.uId= '".$_SESSION['uId']."';";
-          $skill_result=$conn->query($skill_sql);
-          if ($conn && ($skill_result->num_rows>0)) {
-              while ($skill_row=$skill_result->fetch_assoc()) {
-                echo "<div class=form-group>
-                        <p>".$skill_row['sTitle']."</p>
-                        <input type=\"button\" name=\"del-skill\" id=\"del-skill\" class=\"btn btn-dark\" onclick=\"return Delete(".$skill_row['sId'].">Delete</button>
-                      </div>";
-            }
-          }
-          ?>
-          <div class="skill-row">
-            <p>Add Skill</p>
-            <form>
-              <?php
-              $new_skill_sql="SELECT sTitle, sId FROM skills WHERE sId NOT IN (SELECT sId FROM userSkills WHERE uId='".$_SESSION['uId']."');";
-              $new_skill_result=$conn->query($new_skill_sql);
-              if ($conn && ($new_skill_result->num_rows>0)) {
-                  while ($new_skill_row=$new_skill_result->fetch_assoc()) {
-                    echo "input type=\"radio\" name=\"newSkill\">".$new_skill_row['sTitle']."</input>";
-                }
-              }
-              ?>
-              <input type="submit" name="submit">
-            </form>
-          </div> 
-          <button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
-        </div> 
-      </div>
-       -->
       <div class="col-md-4">
         <form class="form-horizontal" action="/includes/addSkill.php" method="post"></form>
           <div class="form-group">
@@ -108,8 +73,9 @@
         </div>
       </div>
       <div class="col-md-4">
-        <?php echo "<form class=\"form-horizontal\" action=\"includes/changeAddress.php?uId=".$_GET['uId']."\" method=\"post\">"?>
+        <?php echo "<form class=\"form-horizontal\" action=\"includes/profile/changeAddress.php\" method=\"post\">";?>
           <div class="form-group">
+            <?php echo "<input type\"hidden\" name=\"uId\" value='".$_GET['uId']."'>";?>
             <label for="comment">Change Address:</label>
             <input class="form-control" type="text" id="changeAddress" name="changeAddress"></input>
             <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
@@ -117,16 +83,104 @@
         </form>
       </div>
       <div class="col-md-4">
-        <form class="form-horizontal" action="/includes/changeContactNo.php" method="post">
+        <?php echo "<form class=\"form-horizontal\" action=\"includes/profile/changeContactNo.php\" method=\"post\">";?>
           <div class="form-group">
+            <?php echo "<input type\"hidden\" name=\"uId\" value='".$_GET['uId']."'>";?>
             <label for="comment">Change Contact Number:</label>
-            <textarea class="form-control" rows="5" id="comment" name="changeContactNo" id="changeContactNo"></textarea>
+            <input class="form-control" type="text" id="changeNumber" name="changeNumber"></input>
             <button type="submit" class="btn btn-primary" style="background-color: green" name="submit">Update</button>
           </div> 
         </form>
-      </div>
     </div>
   </div>
+-->
+  <h3><b>Update information</b></h3>
+  <form action="includes/profile/editBasic.php" method="POST">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="changeEmail4">Email</label>
+        <?php 
+        $email_sql="SELECT uEmail FROM users WHERE uId='".$_SESSION['uId']."';";
+        $email_result=$conn->query($email_sql);
+        if ($conn && ($email_result->num_rows>0)) {
+          while ($email_row=$email_result->fetch_assoc()) {
+            if ($email_row['uEmail']!="NULL") {
+              echo "<input type=\"text\" class=\"form-control\" name=\"changeEmail\" placeholder=\"".$email_row['uEmail']."\">";
+            } else {
+              echo "<input type=\"text\" class=\"form-control\" name=\"changeEmail\" placeholder=\"Please enter a valid email address\">";
+            }
+          }
+        }?>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="changeNumber4">Contact Number</label>
+        <?php 
+        $contactno_sql="SELECT uContactNo FROM users WHERE uId='".$_SESSION['uId']."';";
+        $contactno_result=$conn->query($contactno_sql);
+        if ($conn && ($contactno_result->num_rows>0)) {
+          while ($contactno_row=$contactno_result->fetch_assoc()) {
+            if ($email_row['uContactNo']!="NULL") {
+              echo "<input type=\"text\" class=\"form-control\" name=\"changeNumber\" placeholder=\"".$contactno_row['uContactNo']."\">";
+            } else {
+              echo "<input type=\"text\" class=\"form-control\" name=\"changeEmail\" placeholder=\"Please enter a contact number\">";
+            }
+          }
+        }?>      
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="changeAddress">Address</label>
+      <?php 
+      $address_sql="SELECT uAddress FROM users WHERE uId='".$_SESSION['uId']."';";
+      $address_result=$conn->query($address_sql);
+      if ($conn && ($address_result->num_rows>0)) {
+        while ($address_row=$address_result->fetch_assoc()) {
+          if ($email_row['uAddress']!="NULL") {
+            echo "<input type=\"text\" class=\"form-control\" name=\"changeAddress\" placeholder=\"".$address_row['uAddress']."\">";
+          } else {
+            echo "<input type=\"text\" class=\"form-control\" name=\"changeEmail\" placeholder=\"Please enter an address\">";
+          }
+        }
+      }?>
+    </div>
+    <div class="form-group">
+      <label for="changeBio">Bio</label>
+      <textarea class="form-control" name="changeBio" rows ="3" ></textarea>
+    </div>
+    <button type="submit" name = "submit" class="btn btn-primary" style="background-color: green">Update Information</button>
+  </form>
+  <br>
 
+  <h3><b>Edit Skills</b></h3>
+  <form action="includes/profile/editSkills.php" method="POST">
+    <?php
+    $skill_sql="";
+    $skill_sql="SELECT sTitle FROM skills;";
+    $skill_result=mysqli_query($conn, $skill_sql) or die(mysqli_error($conn));
+    $resultCheck = mysqli_num_rows($skill_result);
+    
+    
+    if ($resultCheck<1) {
+        exit();
+    } else {
+      while ($skill_row=$skill_result->fetch_assoc()) {
+        $checked="";
+        $userSkill_sql="SELECT sTitle FROM skills NATURAL JOIN userSkills NATURAL JOIN users WHERE uId='".$_SESSION['uId']."' AND sTitle='".$skill_row['sTitle']."';";
+        $userSkill_result=mysqli_query($conn, $userSkill_sql) or die(mysqli_error($conn));
+        $usresultCheck=mysqli_num_rows($userSkill_result);
+        if ($usresultCheck==1) {
+          $checked="checked";
+        }
+        echo
+        "<div class=\"form-check\">
+          <input type=\"checkbox\" class=\"form-check-input\" name=\"change".$skill_row['sTitle']."\" value=\"change".$skill_row['sTitle']."\" ".$checked.">
+          <label class=\"form-check-label\" for=\"exampleCheck1\">".$skill_row['sTitle']."</label>
+        </div>";
+      }
+    }
+    ?>
+    <button type="submit" name="submit" class="btn btn-primary" style="background-color: green">Update Skills</button>
+  </form>
+</form>
 </body>
 </html>

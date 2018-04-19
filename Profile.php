@@ -105,7 +105,12 @@
         </div>
         <div class="edit-or-add-friend">
             <?php
-                if(isset($_GET['uId'])) {
+                if(isset($_GET['uId']) && $_GET['uId']==$_SESSION['uId']) {
+                    echo 
+                    "<form action=\"EditProfile.php\">
+                        <input type=\"submit\" value=\"Edit Profile\"/>
+                    </form>";
+                } else if (isset($_GET['uId'])) {
                     echo 
                     "<form action=\"includes/addFriend.php?uId=".$_GET['uId']."\">
                         <input type=\"submit\" value=\"Add Friend\" name=\"addfriend\"/>
