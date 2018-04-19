@@ -42,6 +42,18 @@
 	<?php unset($_SESSION['successfulBan']); ?>
 <?php endif; ?>
 
+<?php if (isset($_SESSION['successfulVacancyRemove']) && $_SESSION['successfulVacancyRemove']): ?>
+
+<div class="alert alert-success alert-dismissable ml-4 mr-4 mt-4">
+<strong>You have successfully removed the vacancy.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+	<?php unset($_SESSION['successfulVacancyRemove']); ?>
+<?php endif; ?>
+
 <?php if (isset($_SESSION['unsuccessfulBan']) && $_SESSION['unsuccessfulBan']): ?>
 
 <div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
@@ -66,6 +78,17 @@
 <?php unset($_SESSION['incorrectInputTempBan']); ?>
 <?php endif; ?>
 
+<?php if (isset($_SESSION['unsuccessfulVacancyRemove']) && $_SESSION['unsuccessfulVacancyRemove']): ?>
+
+<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+<strong>There was an error whilst trying to remove the vacancy.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<?php unset($_SESSION['unsuccessfulVacancyRemove']); ?>
+<?php endif; ?>
 
     <div class="container">
     <div class = "row">
@@ -120,19 +143,20 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Remove Vacancy Ad</h5>
-            <button id="removeVacancyText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select User
-            </button>
-                <div class="dropdown-menu" id="removeVacancyDropdown">
-                <?php 
-                include 'includes/db.php';
-                $sql = "SELECT * FROM vacancies";
-                $query = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($query)) { ?>
-                    <a class="dropdown-item" href="#"><?php echo $row['vId']; echo " "; echo $row['hId'] ;echo " ";echo $row['vName']; echo " "; echo $row['vDescr'];?></a>      
-                <?php }?>       
-                </div>
-            <a id ="removeVacancyButton" href="#" class="btn btn-primary">Remove Ad</a>
+            <form action="includes/removeVacancy.php" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select Vacancy</label>
+                    <select name="option" class="form-control" id="exampleFormControlSelect1">
+                    <?php 
+                        include 'includes/db.php';
+                        $sql = "SELECT * FROM vacancies";
+                        $query = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_assoc($query)) { ?>
+                        <option><?php echo $row['vId']; echo " "; echo $row['hId'] ;echo " ";echo $row['vName']; echo " "; echo $row['vDescr']; ?></option> <?php }?>
+                    </select>
+            </div>
+            <button class="btn btn-primary" id="vacancyRemove" name ="vacancyRemove" type="submit">Remove Vacancy</button>
+            </form>
         </div>
             </div>
             </div>
