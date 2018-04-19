@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,7 +12,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Admin Page</title>
   </head>
   <body>
 
@@ -26,25 +30,63 @@
     </div>
 </nav>
 
+<?php if (isset($_SESSION['successfulBan']) && $_SESSION['successfulBan']): ?>
+
+<div class="alert alert-success alert-dismissable ml-4 mr-4 mt-4">
+<strong>You have successfully banned the account.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+	<?php unset($_SESSION['successfulBan']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['unsuccessfulBan']) && $_SESSION['unsuccessfulBan']): ?>
+
+<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+<strong>That user is already banned.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<?php unset($_SESSION['unsuccessfulBan']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['incorrectInputTempBan']) && $_SESSION['incorrectInputTempBan']): ?>
+
+<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+<strong>You have entered an invalid date.</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<?php unset($_SESSION['incorrectInputTempBan']); ?>
+<?php endif; ?>
+
+
     <div class="container">
-        <div class = "row">
+    <div class = "row">
             <div class ="col-lg-12">
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Ban User Permanenently</h5>
-            <button id="permBanButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select User
-            </button>
-                <div class="dropdown-menu" id="permBanDropdown">
-                <?php 
-                include 'includes/db.php';
-                $sql = "SELECT uFirstName, uLastName FROM users";
-                $query = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($query)) { ?>
-                    <a class="dropdown-item" href="#"><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];?></a>      
-                <?php }?>       
-                </div>
-            <a href="#" class="btn btn-primary">Ban User</a>
+            <form action="includes/banUser.php" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select User</label>
+                    <select name="option" class="form-control" id="exampleFormControlSelect1">
+                    <?php 
+                        include 'includes/db.php';
+                        $sql = "SELECT uId, uFirstName, uLastName FROM users";
+                        $query = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_assoc($query)) { ?>
+                        <option><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];  echo " -  uId:"; echo$row['uId']; ?></option> <?php }?>
+                    </select>
+            </div>
+            <button class="btn btn-primary" id="banhammerPerm" name ="banhammerPerm" type="submit">Ban User</button>
+            </form>
         </div>
             </div>
             </div>
@@ -54,19 +96,21 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Ban User Temporarily</h5>
-            <button id="tempBanButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select User
-            </button>
-                <div class="dropdown-menu" id="tempBanDropdown">
-                <?php 
-                include 'includes/db.php';
-                $sql = "SELECT uFirstName, uLastName FROM users";
-                $query = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($query)) { ?>
-                    <a class="dropdown-item" href="#"><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];?></a>      
-                <?php }?>       
-                </div>
-            <a href="#" class="btn btn-primary">Ban User</a>
+            <form action="includes/banUser.php" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select User</label>
+                    <select name="option" class="form-control" id="exampleFormControlSelect1">
+                    <?php 
+                        include 'includes/db.php';
+                        $sql = "SELECT uId, uFirstName, uLastName FROM users";
+                        $query = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_assoc($query)) { ?>
+                        <option><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];  echo " -  uId:"; echo$row['uId']; ?></option> <?php }?>
+                    </select>
+                    <input type="text" class="form-control mt-2" name = "banLength" id="banLength" placeholder="Ban expiration date (Format: YYYY-MM-DD)">
+            </div>
+            <button class="btn btn-primary" id="banhammerTemp" name ="banhammerTemp" type="submit">Ban User</button>
+            </form>
         </div>
             </div>
             </div>
@@ -76,7 +120,7 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Remove Vacancy Ad</h5>
-            <button id="removeVacancyButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button id="removeVacancyText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select User
             </button>
                 <div class="dropdown-menu" id="removeVacancyDropdown">
@@ -88,7 +132,7 @@
                     <a class="dropdown-item" href="#"><?php echo $row['vId']; echo " "; echo $row['hId'] ;echo " ";echo $row['vName']; echo " "; echo $row['vDescr'];?></a>      
                 <?php }?>       
                 </div>
-            <a href="#" class="btn btn-primary">Remove Ad</a>
+            <a id ="removeVacancyButton" href="#" class="btn btn-primary">Remove Ad</a>
         </div>
             </div>
             </div>
@@ -98,7 +142,7 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Edit Hotel Profile</h5>
-            <button id="editHotelButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button id="editHotelText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select User
             </button>
                 <div class="dropdown-menu"  id="editHotelDropdown">
@@ -110,14 +154,14 @@
                     <a class="dropdown-item" href="#"><?php echo $row['hName']; echo " ";?></a>      
                 <?php }?>       
                 </div>
-            <a href="#" class="btn btn-primary">Edit Hotel</a>
+            <a id ="editHotelButton" href="#" class="btn btn-primary">Edit Hotel</a>
         </div>
         <div class = "row">
             <div class ="col-lg-12">
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
                 <div class="card-body">
                     <h5 class="card-title">Edit User Profile</h5>
-                    <button id="editUserButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button id="editUserText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Select User
 		            </button>
 		                <div class="dropdown-menu" id="editUserDropdown">
@@ -129,7 +173,7 @@
                             <a class="dropdown-item" href="#"><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];?></a>      
                         <?php }?>       
 		                </div>
-                    <a href="#" class="btn btn-primary">Edit User</a>
+                    <a id ="editUserButton" href="#" class="btn btn-primary">Edit User</a>
                 </div>
             </div>
             </div>
@@ -145,25 +189,52 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script>
+    var user = "";
     $('.dropdown-menu a').on('click', function(){
 	var option = $(this).text();
     var divId = $(this).closest(".dropdown-menu").attr("id");
     if (divId == "permBanDropdown") {
-        document.getElementById("permBanButton").innerText = option;
+        document.getElementById("permBanText").innerText = option;
     }
     else if (divId == "tempBanDropdown") {
-        document.getElementById("tempBanButton").innerText = option;
+        document.getElementById("tempBanText").innerText = option;
     }
     else if (divId == "removeVacancyDropdown") {
-        document.getElementById("removeVacancyButton").innerText = option;
+        document.getElementById("removeVacancyText").innerText = option;
     }
     else if (divId == "editHotelDropdown") {
-        document.getElementById("editHotelButton").innerText = option;
+        document.getElementById("editHotelText").innerText = option;
     }
     else if (divId == "editUserDropdown") {
-        document.getElementById("editUserButton").innerText = option;
+        document.getElementById("editUserText").innerText = option;
     }
     });
+
+    $('#permBanButton').click(function() {
+        user = $('#permBanText').text();
+        console.log(user);
+    });
+    $('#tempBanButton').click(function() {
+        user = $('#tempBanText').text();
+        console.log(user);
+    });
+    $('#removeVacancyButton').click(function() {
+        user = $('#removeVacancyText').text();
+        console.log(user);
+    });
+    $('#editHotelButton').click(function() {
+        user = $('#teditHotelText').text();
+        console.log(user);
+    });
+    $('#editUserButton').click(function() {
+        user = $('#editUserText').text();
+        console.log(user);
+    });
+
+    function banUser() {
+       document.getElementById("permBanButton").setAttribute("href", "includes/banUser.php?uId" + $('#permBanText').text());
+       return false;
+    }
     </script>
   </body>
 </html>

@@ -42,11 +42,23 @@ if (isset($_POST['login'])) {
 				header("Location: ../?loginUserPassword=error");
 				exit();
 			} elseif ($hashedPasswordCheck == true) {
+				$sql0 = "SELECT * FROM bannedUsers WHERE uId = ".$row[uId]."";
+				$result0 = mysqli_query($conn, $sql0);
+				$row0 = mysqli_fetch_assoc($result0);
+				$currDate = date("Y-m-d");
+				if (mysqli_num_rows($result0) > 0 && $row0['dateEnd'] > $currDate) {
+					$_SESSION['userBanned'] = true;
+					header("Location: ../?userBanned");
+					exit();
+				}
+				else {
 				$_SESSION['uId'] = $row[uId];
+				$_SESSION['uFirst'] = $row[uFirstName];
 				$_SESSION['userLoggedIn'] = true;
-				$url = "../profile.php?uId=".$_SESSION['uId'];
+				$url = "../homepage.php";
 				header("Location: ".$url);
 				exit();
+			}
 			}
 		}
 		if ($resultCheckHotel < 1) {
