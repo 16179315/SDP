@@ -91,12 +91,20 @@
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
 				<?php
-
-				 $sql = "select hImg from hotelImage where hId='".$_GET['hId']."';";
-				 $result = mysqli_query($conn,$sql);
-				 $row = mysqli_fetch_array($result);
-			     $image_src = "includes/upload/hotelImages/";
-				 $image_src = $image_src."".$row['hImg'];
+					if(isset($_GET['hId'])) {
+						 $sql = "select hImg from hotelImage where hId='".$_GET['hId']."';";
+						 $result = mysqli_query($conn,$sql);
+						 $row = mysqli_fetch_array($result);
+						 $image_src = "includes/upload/hotelImages/";
+						 $image_src = $image_src."".$row['hImg'];
+					}
+					else {
+						 $sql = "select hImg from hotelImage where hId='".$_SESSION['hId']."';";
+						 $result = mysqli_query($conn,$sql);
+						 $row = mysqli_fetch_array($result);
+						 $image_src = "includes/upload/hotelImages/";
+						 $image_src = $image_src."".$row['hImg'];
+					}
 				 
 				?>
 				<img src='<?php echo $image_src; ?>' >
@@ -110,7 +118,14 @@
 							echo $profile_hName;
 						}
 						else {
-							echo $_SESSION['hName'];
+							$profile_descr_sql="SELECT hName FROM hotels where hId = '".$_SESSION['hId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['hName'];
+								}
+							}
+							echo $profile_descr;
 						}
 						?>
 					</div>
@@ -128,7 +143,7 @@
 						}
 						
 						else {
-							$profile_descr_sql="SELECT descr FROM hotels where hId = '".$_GET['hId']."';";
+							$profile_descr_sql="SELECT descr FROM hotels where hId = '".$_SESSION['hId']."';";
 							$profile_descr_result=$conn->query($profile_descr_sql);
 							if ($conn && ($profile_descr_result->num_rows>0)) {
 								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
@@ -164,7 +179,7 @@
 							}
 							else {
 								echo "<BR><BR> Address: 	";
-								$profile_address_sql="SELECT address FROM hotels where hId = '".$_GET['hId']."';";
+								$profile_address_sql="SELECT address FROM hotels where hId = '".$_SESSION['hId']."';";
 								$profile_address_result=$conn->query($profile_address_sql);
 								if ($conn && ($profile_address_result->num_rows>0)) {
 									while ($profile_address_row=$profile_address_result->fetch_assoc()) {
@@ -174,7 +189,7 @@
 								echo $profile_address;
 								
 								echo "<BR><BR> Phone: 	";
-								$profile_contactNo_sql="SELECT contactNo FROM hotels where hId = '".$_GET['hId']."';";
+								$profile_contactNo_sql="SELECT contactNo FROM hotels where hId = '".$_SESSION['hId']."';";
 								$profile_contactNo_result=$conn->query($profile_contactNo_sql);
 								if ($conn && ($profile_contactNo_result->num_rows>0)) {
 									while ($profile_contactNo_row=$profile_contactNo_result->fetch_assoc()) {
@@ -210,10 +225,14 @@
 						</li>
 						<li>
 							<?php 
-								$url = "editHotel.php?hId=".$_GET['hId'].";";
-								echo "<a href=$url>"; ?>
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
+							if(!(isset($_GET['hId']))) {
+									$url = "editHotel.php";
+									echo "<a href=$url>
+								<i class=\"glyphicon glyphicon-user\"></i>
+								Account Settings </a>";
+							}
+							?>
+							
 						</li>
 					</ul>
 				</div>
@@ -241,14 +260,14 @@
 											<a class=\"btn btn-success btn-sm\">Go To Vacancy Application</a>
 										</div>
 										<div class=\"card-footer text-muted success-color white-text\">
-											<p class=\"mb-0\">2 days ago</p>
+											<p class=\"mb-0\">Skills Required:<BR></p>
 										</div>
 									</div>";
 							}
 						}
 					}
 					else {
-						$profile_vacancy_sql="SELECT * FROM vacancies where hId = '".$_GET['hId']."';";
+						$profile_vacancy_sql="SELECT * FROM vacancies where hId = '".$_SESSION['hId']."';";
 						$profile_vacancy_result=$conn->query($profile_vacancy_sql);
 						if ($conn && ($profile_vacancy_result->num_rows>0)) {
 							while ($profile_vacancy_row=$profile_vacancy_result->fetch_assoc()) {
@@ -273,7 +292,7 @@
 			   
 			   ?>
 		</div>
-		<div class="col-md-md-4">
+		<div class="col-md-4">
 			<div>
 			   <h2 style= "color:green";>Awards Received</h2>
 			   <?php
@@ -296,7 +315,7 @@
 						}
 					}
 					else {
-						$profile_award_sql="SELECT * FROM hotelAwards where hId = '".$_GET['hId']."';";
+						$profile_award_sql="SELECT * FROM hotelAwards where hId = '".$_SESSION['hId']."';";
 						$profile_award_result=$conn->query($profile_award_sql);
 						if ($conn && ($profile_award_result->num_rows>0)) {
 							while ($profile_award_row=$profile_award_result->fetch_assoc()) {
@@ -330,7 +349,7 @@
 							while ($profile_menu_row=$profile_menu_result->fetch_assoc()) {
 								$profile_menu_id = $profile_menu_row['hMId'];
 								$profile_menu_name = $profile_menu_row['hMName'];
-
+ 
 								echo "<div class=\"card\">
 											<h3 class=\"card-header success-color white-text\">$profile_menu_name</h4>
 										  <div class=\"card-body\">";
@@ -352,7 +371,7 @@
 						}
 					}
 					else {
-						$profile_menu_sql="SELECT * FROM hotelMenu where hId = '".$_GET['hId']."';";
+						$profile_menu_sql="SELECT * FROM hotelMenu where hId = '".$_SESSION['hId']."';";
 						$profile_menu_result=$conn->query($profile_menu_sql);
 						if ($conn && ($profile_menu_result->num_rows>0)) {
 							while ($profile_menu_row=$profile_menu_result->fetch_assoc()) {
