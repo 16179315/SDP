@@ -1,89 +1,158 @@
 <?php
     include 'navbar_template.html';
-    
+    session_start();
+    include 'includes/db.php';
       if(isset($_POST["search"]) && isset($_POST["dropDown"])){
-            include 'includes/db.php';
+            
 
             $searchInput = mysqli_real_escape_string($conn, $_POST["data"]);
             $dropDownValue = mysqli_real_escape_string($conn, $_POST["dropDown"]);
 
             if(strcmp($dropDownValue, "users") == 0) {
-                $query = mysqli_query($conn, "SELECT uFirstName,uLastName,uEmail,uContactNo,uAddress FROM users " . 
+                $query = mysqli_query($conn, "SELECT uFirstName,uLastName,uEmail,uContactNo,uAddress, uId 
+                                                    FROM users " . 
                                                     "WHERE uFirstName LIKE" . "'%"."$searchInput"."%';");
-
-                while($row = mysqli_fetch_row($query))
-                {   
-                    printf("<table>
-                              <tr>
-                                <th>User Name</th>
-                                <th>Email</th>
-                                <th>Contact No</th>
-                                <th>Address</th>
-                                <th>Add Connection</th>
-                              </tr>
-                              <tr>
-                                <td>%s %s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td><button>Add</button></td>
-                              </tr>
-                            </table></br>", $row[0], $row[1], $row[2], $row[3],$row[4]);
+                $row_count = mysqli_num_rows($query);
+                if($row_count > 0){
+                    while($row = mysqli_fetch_row($query))
+                    {   
+                        echo  "<table>";
+                        echo  "<tr>";
+                        echo  "<th>User Name</th>";
+                        echo  "<th>Email</th>";
+                        echo  "<th>Contact No</th>";
+                        echo  "<th>Address</th>";
+                        echo  "<th>Add Connection</th>";
+                        echo  "</tr>";
+                        echo  "<tr>";
+                        echo  "<td><a href=\"Profile.php?uId=".$row[5]."\">$row[0] $row[1]</a></td>";
+                        echo  "<td>$row[2]</td>";
+                        echo  "<td>$row[3]</td>";
+                        echo  "<td>$row[4]</td>";
+                        echo  "<td><button class='btn btn-primary' 
+                                    onclick='document.write(AddConnection($row[5]))';>
+                                    Add</button></td>";
+                        echo  "</tr>";
+                        echo  "</table></br>";
+                    }
+                }else
+                {
+                    echo "<h3>No matching search results</h2>";
                 }
 
             }elseif (strcmp($dropDownValue, "hotels") == 0) {
-                $query = mysqli_query($conn, "SELECT hName,contactNo,email,address FROM hotels " . 
+                $query = mysqli_query($conn, "SELECT hName,contactNo,email,address,hId FROM hotels " . 
                                                     "WHERE hName LIKE" . "'%"."$searchInput"."%';");
+                $row_count = mysqli_num_rows($query);
 
-                while($row = mysqli_fetch_row($query))
-                {
-                    printf("<table>
-                              <tr>
-                                <th>Hotel Name</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Telephone</th>
-                              </tr>
-                              <tr>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                              </tr>
-                            </table></br>", $row[0],$row[3],$row[2],$row[1]);
+                if($row_count > 0){
+                    while($row = mysqli_fetch_row($query))
+                    {
+                       echo  "<table>";
+                        echo  "<tr>";
+                        echo  "<th>Hotel Name</th>";
+                        echo  "<th>Email</th>";
+                        echo  "<th>Contact No</th>";
+                        echo  "<th>Address</th>";
+                        echo  "</tr>";
+                        echo  "<tr>";
+                        echo  "<td><a href=\"hotel.php?hId=".$row[4]."\">$row[0]</a></td>";
+                        echo  "<td>$row[2]</td>";
+                        echo  "<td>$row[1]</td>";
+                        echo  "<td>$row[3]</td>";
+                        echo  "</tr>";
+                        echo  "</table></br>";
+                    }
+                }else{
+                    echo "<h3>No matching search results</h2>";
+                
                 }
 
             }elseif(strcmp($dropDownValue, "vacancies") == 0) {
                 $query = mysqli_query($conn, "SELECT vName,vDescr,hId,status,amount FROM vacancies " . 
                                                 "WHERE vName LIKE" . "'%"."$searchInput"."%';");
+                $row_count = mysqli_num_rows($query);
 
-                while($row = mysqli_fetch_row($query))
-                {
-                    $hotelNameQuery = mysqli_query($conn, "SELECT hName FROM hotels WHERE hId = $row[2];");
-                    $nameResult = mysqli_fetch_row($hotelNameQuery);
-                    printf("<table>
-                              <tr>
-                                <th>Vacancy Type</th>
-                                <th>Description</th>
-                                <th>Hotel</th>
-                                <th>Status</th>
-                                <th>Salary</th>
-                              </tr>
-                              <tr>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%s</td>
-                                <td>%d</td>
-                              </tr>
-                            </table></br>", $row[0],$row[1],$nameResult[0],$row[3],$row[4]);
+                if($row_count > 0){
+                    while($row = mysqli_fetch_row($query))
+                    {
+                        $hotelNameQuery = mysqli_query($conn, "SELECT hName FROM hotels WHERE hId = $row[2];");
+                        $nameResult = mysqli_fetch_row($hotelNameQuery);
+                        echo  "<table>";
+                        echo  "<tr>";
+                        echo  "<th>Vacancy</th>";
+                        echo  "<th>Description</th>";
+                        echo  "<th>Hotel</th>";
+                        echo  "<th>Status</th>";
+                        echo  "<th>Amount</th>";
+                        echo  "</tr>";
+                        echo  "<tr>";
+                        echo  "<td><a href=\"hotel.php?hId=".$nameResult[0]."\">$row[0]</a></td>";
+                        echo  "<td>$row[1]</td>";
+                        echo  "<td>$nameResult[0]</td>";
+                        echo  "<td>$row[3]</td>";
+                        echo  "<td>$row[4]</td>";
+                        echo  "</tr>";
+                        echo  "</table></br>";
+                    }
+                }else{
+                     echo "<h3>No matching search results</h2>";
                 }
             }elseif (strcmp($dropDownValue, "skills") == 0) {
                 $sidQuery = mysqli_query($conn, "SELECT sId FROM skills " .  
                                                     "WHERE sTitle LIKE" . "'%"."$searchInput"."%';");
-                var_dump($sidQuery);
+                $sid = mysqli_fetch_row($sidQuery);
+                $vIdQuery = mysqli_query($conn, "SELECT vId FROM skillsRequired WHERE
+                                                                sId = $sid[0];");
+
+                $num_rows = mysqli_num_rows($sidQuery);
+
+                if($row_count > 0){
+                    while ($row = mysqli_fetch_row($vIdQuery)) {
+                       
+                        $vacancyQuery = mysqli_query($conn, "SELECT hId,vName,vDescr,status,amount FROM vacancies  
+                                            WHERE vId = $row[0];");
+                        $vacancy = mysqli_fetch_row($vacancyQuery);
+
+                        $hotelNameQuery = mysqli_query($conn, "SELECT hName FROM hotels WHERE hId = $vacancy[0];");
+                        $nameResult = mysqli_fetch_row($hotelNameQuery);
+                            
+                            echo  "<table>";
+                            echo  "<tr>";
+                            echo  "<th>Vacancy</th>";
+                            echo  "<th>Description</th>";
+                            echo  "<th>Hotel</th>";
+                            echo  "<th>Status</th>";
+                            echo  "<th>Amount</th>";
+                            echo  "</tr>";
+                            echo  "<tr>";
+                            echo  "<td>$vacancy[1]</td>";
+                            echo  "<td>$vacancy[2]</td>";
+                            echo  "<td><a href=\"hotel.php?hId=".$nameResult[0]."\">$nameResult[0]</a></td>";
+                            echo  "<td>$vacancy[3]</td>";
+                            echo  "<td>$vacancy[4]</td>";
+                            echo  "</tr>";
+                            echo  "</table></br>";
+                }
+            }else{
+                 echo "<h3>No matching search results</h2>";
+            }
+
             }
             
              mysqli_close($conn);
+        }
+
+        function AddConnection($uId){
+            $sql = "SELECT uid2 FROM friends WHERE uid1 = ".$_SESSION['uId']." AND uid2 = ".$uId."";
+            $result = mysqli_query($conn, $sql);
+            $numRows = mysqli_num_rows($result);
+            if ($numRows == 0) {
+                $sql2 = "INSERT INTO friends (uid1, uid2) VALUES (".$_SESSION['uId'].", ".$uId.")";
+                $result2 = mysqli_query($conn, $sql2);
+                echo "Added connection.";
+            } else {
+                echo "You are already connected to this user.";
+            }
         }
 ?>

@@ -90,8 +90,6 @@
                     $image1 = $imageRow1["img"];
                     $dirName1 = "images/profile/".$image1;
                     echo '<img class="profile-picture" src="'.$dirName1.'" />';
-                    //$imageData1 = base64_encode(file_get_contents($image1));
-                    //echo '<img class="profile-picture" src="data:image/png;base64,'.$imageData1.'">';
                     ?></div>
                     <div class = "p-2">
                         <?php
@@ -110,7 +108,10 @@
                         include 'includes/db.php';
                         $sql = "SELECT * FROM vacancies;";
                         $result = mysqli_query($conn, $sql);
-                        while ($row = mysqli_fetch_assoc($result)) { ?>
+                        while ($row = mysqli_fetch_assoc($result)) {
+                        $sql3 = "SELECT uId FROM userSkills WHERE sId IN (SELECT sId FROM skillsRequired WHERE vId = ".$row['vId'].") GROUP BY uId HAVING count(*) = (SELECT count(sId) FROM skillsRequired WHERE vId = ".$row['vId'].")";
+                        $result3 = mysqli_query($conn, $sql3);
+                        while ($row3 = mysqli_fetch_assoc($result3)) { ?>
                         <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $row["vName"];?></h5>
@@ -121,10 +122,10 @@
                                     echo $row1["hName"];
                                 ?></h6>
                                 <p class="card-text"><?php echo $row["vDescr"];?></p>
-                                <a href="#" class="card-link">Link to vacancy</a>
+                                <a href=<?php echo "../hotel.php?hId=".$row["hId"];?> class="card-link">Link to vacancy</a>
                             </div>
                         </div>
-                    <?php } ?>
+                    <?php }} ?>
                 </div>
             </div>
             <div class = "col-xs-2 ml-2">

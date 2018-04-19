@@ -12,7 +12,7 @@
 		if(! $retval )
 		{
 		  die('Could not update data:' . mysql_error());
-		  		  $url = "../newEditHotel.php?hId=".$hId;
+		  		  $url = "../editHotel.php?hId=".$hId;
 		  header("Location: ".$url);
 		  exit();
 		}
@@ -24,7 +24,7 @@
 		if(! $retval )
 		{
 		  die('Could not update data:' . mysql_error());
-		  		  $url = "../newEditHotel.php?hId=".$hId;
+		  $url = "../newEditHotel.php?hId=".$hId;
 		  header("Location: ".$url);
 		  exit();
 		}
@@ -43,6 +43,7 @@
 	}
 	if(!($_POST['inputDescription'] == "")) {
 		$descr = $_POST['inputDescription'];
+		echo $descr;
 		$sql = "UPDATE hotels SET descr = '$descr' where $hId = '$hId'";
 		$retval = mysqli_query($conn,$sql );
 		if(! $retval )
