@@ -76,7 +76,7 @@ if (isset($_POST['login'])) {
 			} elseif ($hashedPasswordCheck == true) {
 				$_SESSION['hId'] = $row[hId];
 				$_SESSION['hotelLoggedIn'] = true;
-				$url = "../hotel.php?hId=".$_SESSION['hId'];
+				$url = "../hotel.php";
 				header("Location: ".$url);
 				exit();
 			}
