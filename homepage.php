@@ -128,7 +128,9 @@
                         while ($row = mysqli_fetch_assoc($result)) {
                         $sql3 = "SELECT uId FROM userSkills WHERE sId IN (SELECT sId FROM skillsRequired WHERE vId = ".$row['vId'].") GROUP BY uId HAVING count(*) = (SELECT count(sId) FROM skillsRequired WHERE vId = ".$row['vId'].")";
                         $result3 = mysqli_query($conn, $sql3);
-                        while ($row3 = mysqli_fetch_assoc($result3)) { ?>
+                        while ($row3 = mysqli_fetch_assoc($result3)) { 
+                            if ($row3['uId'] == $_SESSION['uId']) {
+                            ?>
                         <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $row["vName"];?></h5>
@@ -142,7 +144,7 @@
                                 <a href=<?php echo "../hotel.php?hId=".$row["hId"];?> class="card-link">Link to vacancy</a>
                             </div>
                         </div>
-                    <?php }} ?>
+                    <?php }}} ?>
                 </div>
             </div>
             <div class = "col-xs-2 ml-2">
