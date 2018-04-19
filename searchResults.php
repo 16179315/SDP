@@ -1,8 +1,9 @@
 <?php
     include 'navbar_template.html';
-    
+    session_start();
+    include 'includes/db.php';
       if(isset($_POST["search"]) && isset($_POST["dropDown"])){
-            include 'includes/db.php';
+            
 
             $searchInput = mysqli_real_escape_string($conn, $_POST["data"]);
             $dropDownValue = mysqli_real_escape_string($conn, $_POST["dropDown"]);
@@ -28,7 +29,9 @@
                         echo  "<td>$row[2]</td>";
                         echo  "<td>$row[3]</td>";
                         echo  "<td>$row[4]</td>";
-                        echo  "<td><button class='btn btn-primary' href='addSearchConnection.php?uId2=<?= $row[5]?>' role='button'>Add</button></td>";
+                        echo  "<td><button class='btn btn-primary' 
+                                    onclick='document.write(AddConnection($row[5]))';>
+                                    Add</button></td>";
                         echo  "</tr>";
                         echo  "</table></br>";
                     }
@@ -138,5 +141,18 @@
             }
             
              mysqli_close($conn);
+        }
+
+        function AddConnection($uId){
+            $sql = "SELECT uid2 FROM friends WHERE uid1 = ".$_SESSION['uId']." AND uid2 = ".$uId."";
+            $result = mysqli_query($conn, $sql);
+            $numRows = mysqli_num_rows($result);
+            if ($numRows == 0) {
+                $sql2 = "INSERT INTO friends (uid1, uid2) VALUES (".$_SESSION['uId'].", ".$uId.")";
+                $result2 = mysqli_query($conn, $sql2);
+                echo "Added connection.";
+            } else {
+                echo "You are already connected to this user.";
+            }
         }
 ?>
