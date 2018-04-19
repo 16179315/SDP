@@ -189,39 +189,40 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Edit Hotel Profile</h5>
-            <button id="editHotelText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select User
-            </button>
-                <div class="dropdown-menu"  id="editHotelDropdown">
-                <?php 
-                include 'includes/db.php';
-                $sql = "SELECT * FROM hotels";
-                $query = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($query)) { ?>
-                    <a class="dropdown-item" href="#"><?php echo $row['hName']; echo " ";?></a>      
-                <?php }?>       
-                </div>
-            <a id ="editHotelButton" href="#" class="btn btn-primary">Edit Hotel</a>
+            <form action="includes/editHotelFromAdmin.php" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select User</label>
+                    <select name="option" class="form-control" id="exampleFormControlSelect1">
+                    <?php 
+                        include 'includes/db.php';
+                        $sql = "SELECT hId, hName FROM hotels";
+                        $query = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_assoc($query)) { ?>
+                        <option><?php echo $row['hName']; echo " -  hId:"; echo$row['hId']; ?></option> <?php }?>
+                    </select>
+            </div>
+            <button class="btn btn-primary" id="submit" name ="submit" type="submit">Edit Hotel</button>
+            </form>
         </div>
         <div class = "row">
             <div class ="col-lg-12">
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
                 <div class="card-body">
                     <h5 class="card-title">Edit User Profile</h5>
-                    <button id="editUserText" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select User
-		            </button>
-		                <div class="dropdown-menu" id="editUserDropdown">
-                        <?php 
-                        include 'includes/db.php';
-                        $sql = "SELECT uFirstName, uLastName FROM users";
-                        $query = mysqli_query($conn, $sql);
-                        while ($row = mysqli_fetch_assoc($query)) { ?>
-                            <a class="dropdown-item" href="#"><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];?></a>      
-                        <?php }?>       
-		                </div>
-                    <a id ="editUserButton" href="#" class="btn btn-primary">Edit User</a>
-                </div>
+                    <form action="includes/editUserProfileFromAdmin.php" method="POST">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select User</label>
+                            <select name="option" class="form-control" id="exampleFormControlSelect1">
+                            <?php 
+                                include 'includes/db.php';
+                                $sql = "SELECT uId, uFirstName, uLastName FROM users";
+                                $query = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_assoc($query)) { ?>
+                                <option><?php echo $row['uFirstName']; echo " "; echo $row['uLastName'];  echo " -  uId:"; echo$row['uId']; ?></option> <?php }?>
+                            </select>
+                    </div>
+                    <button class="btn btn-primary" id="submit" name ="submit" type="submit">Edit User</button>
+                    </form>
             </div>
             </div>
         </div>       
