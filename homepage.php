@@ -1,8 +1,25 @@
 <?php
     session_start();
 
-    if (!(isset($_SESSION['userLoggedIn']) || isset($_SESSION['hotelLoggedIn']))) {
-        header("Location: ../index.php");
+	if (isset($_SESSION['userLoggedIn'])) {
+	}
+	else if (isset($_SESSION['hotelLoggedIn'])) {
+        if($_SESSION['hotelLoggedIn'] == true) {
+            $url = "Location:../hotel.php?hId=".$_SESSION['hId'];
+            header("Location: ".$url);
+            exit();
+		}
+	}
+	else if (isset($_SESSION['adminLoggedIn'])) {
+		if($_SESSION['adminLoggedIn'] == true) {
+            $url = "Location:../admin.php";
+            header("Location: ".$url);
+            exit();
+		}
+    }
+    else {
+        $url = "Location:../index.php";
+        header("Location: ".$url);
         exit();
     }
 ?>

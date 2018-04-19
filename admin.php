@@ -1,5 +1,28 @@
 <?php
+// is adminLoggedIn set
     session_start();
+
+    if (isset($_SESSION['adminLoggedIn'])) {
+	}
+	else if (isset($_SESSION['hotelLoggedIn'])) {
+        if($_SESSION['hotelLoggedIn'] == true) {
+            $url = "Location:../hotel.php?hId=".$_SESSION['hId'];
+            header("Location: ".$url);
+            exit();
+		}
+	}
+	else if (isset($_SESSION['userLoggedIn'])) {
+		if($_SESSION['userLoggedIn'] == true) {
+            $url = "Location:../profile.php?uId=".$_SESSION['uId'];
+            header("Location: ".$url);
+            exit();
+		}
+    }
+    else {
+        $url = "Location:../index.php";
+        header("Location: ".$url);
+        exit();
+    }
 ?>
 
 <!doctype html>
