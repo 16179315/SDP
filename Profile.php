@@ -138,6 +138,31 @@
 						}
 						?>
 					</div>
+					<div class="profile-usertitle-job">
+						<?php
+						if(isset($_GET['uId'])) {
+							$profile_descr_sql="SELECT uBio FROM users where uId = '".$_GET['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uBio'];
+								}
+							}
+							echo $profile_descr;
+						}
+						
+						else {
+							$profile_descr_sql="SELECT uBio FROM users where uId = '".$_SESSION['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uBio'];
+								}
+							}
+							echo $profile_descr;
+						}
+							?>
+					</div>
 					<div style="text-align:left; padding:20px;">
 						<?php
 							if(isset($_GET['uId'])) {
@@ -233,8 +258,6 @@
 							while ($profile_vacancy_row=$profile_vacancy_result->fetch_assoc()) {
 								$profile_vacancy_name = $profile_vacancy_row['jName'];
 								$profile_vacancy_descr = $profile_vacancy_row['jHdescr'];
-								$profile_vacancy_status= $profile_vacancy_row['status'];
-								$profile_vacancy_amount = $profile_vacancy_row['amount'];
 								$profile_vacancy_uId = $profile_vacancy_row['uId'];
 								echo "<div class=\"card text-center\" style=\"width: 22rem;\">
 									<div class=\"card-header success-color white-text\">$profile_vacancy_status</div>
@@ -257,10 +280,8 @@
 							while ($profile_vacancy_row=$profile_vacancy_result->fetch_assoc()) {
 								$profile_vacancy_name = $profile_vacancy_row['jName'];
 								$profile_vacancy_descr = $profile_vacancy_row['jHdescr'];
-								$profile_vacancy_status= $profile_vacancy_row['status'];
-								$profile_vacancy_amount = $profile_vacancy_row['amount'];
 								echo "<div class=\"card text-center\" style=\"width: 22rem;\">
-									<div class=\"card-header success-color white-text\">$profile_vacancy_status</div>
+									<div class=\"card-header success-color white-text\">Worked as:</div>
 									<div class=\"card-body\">
 											<h4 class=\"card-title\">$profile_vacancy_name</h4>
 											<p class=\"card-text\">$profile_vacancy_descr</p>
