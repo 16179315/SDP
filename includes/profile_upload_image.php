@@ -1,10 +1,7 @@
 <?php
-
+session_start();
+include '../db.php';
 if(isset($_POST['submit'])) {
-	$dbServerName = "sql11.freemysqlhosting.net:3306";
-	$dbUsername = "sql11225471";
-	$dbPassword = "cbgPE8apID";
-	$dbName = "sql11225471";
 	$conn = mysqli_connect($dbServerName, $dbUsername, $dbPassword, $dbName);
 	
 	$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
