@@ -1,0 +1,27 @@
+<?php
+
+	session_start();
+	$success = true;
+	include 'db.php';
+	$hId = $_POST['hId'];
+	
+	if(!($_POST['inputAwardName'] == "")) {
+		$name = $_POST['inputAwardName'];
+		$sql = "DELETE FROM hotelAwards where hAname='$name'";
+		if ($conn->query($sql) === TRUE) {
+			echo "Record deleted successfully";
+		$_SESSION['success'] = true;
+			  $url = "../adminEditHotel.php?hId=".$hId;
+			  header("Location: ".$url);
+			  exit();
+		} else {
+			echo "Error deleting record: " . $conn->error;
+		}
+	}
+	
+	else {
+	  die('Could not update data:' . mysql_error());
+	  $url = "../adminEditHotel.php?hId=".$hId;
+	  header("Location: ".$url);
+	  exit();
+	}
