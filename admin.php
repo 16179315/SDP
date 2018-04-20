@@ -189,7 +189,7 @@
             <div class="card mr-2 mb-2 mt-2" style="width: 100%;">
             <div class="card-body">
             <h5 class="card-title">Edit Hotel Profile</h5>
-            <form action="includes/editHotelFromAdmin.php" method="POST">
+            <form action="adminEditHotel.php" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select User</label>
                     <select name="option" class="form-control" id="exampleFormControlSelect1">

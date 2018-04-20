@@ -49,7 +49,7 @@
       <form class ="form-inline navbar-form" action="includes/login.php" method="POST" novalidate="novalidate">
         <li class="nav-item">
         <?php if($_SESSION['userLoggedIn'] == true) {
-            $url = "profile.php?uId=".$_SESSION['uId'];
+            $url = "profile.php";
             echo "<a class=\"nav-link\" href="."$url".">Profile</a>";
         }
         else if($_SESSION['hotelLoggedIn'] == true) {

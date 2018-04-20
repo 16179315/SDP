@@ -1,19 +1,44 @@
 <?php
-  session_start();
-  include 'includes/db.php';
+    session_start();
+ 
+    include 'includes/db.php';
+	if(isset($_GET['uId'])) {
+		$profile_hName_sql="SELECT * FROM users where uId = '".$_GET['uId']."';";
+		$profile_hName_result=$conn->query($profile_hName_sql);
+		if ($conn && ($profile_hName_result->num_rows>0)) {
+				while ($profile_hName_row=$profile_hName_result->fetch_assoc()) {
+					$profile_hName = $profile_hName_row['uFirstName'];
+					$profile_address = $profile_hName_row['uAddress'];
+					$profile_contactNo = $profile_hName_row['uContactNo'];
+			}
+		}
+    }
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Edit Profile</title>
+  <title>
+        <?php
+		if(isset($_GET['uId'])) {
+            echo $profile_hName;
+        }
+		else{
+            echo $_SESSION['uId'];
+		}
+        ?>
+</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link href="style.css" rel="stylesheet">
+  <link href="profile.css" rel="stylesheet">
+  <link href="sticky-footer-navbar.css" rel="stylesheet">
+  
+  
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	`  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
   <script type="text/javascript">
     function Delete(id) {
       window.location="EditProfile.php?delSkill="+id;
@@ -21,6 +46,7 @@
   </script>
 </head>
 <body>
+<<<<<<< HEAD
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <a class="navbar-brand abs" href="../index.php">HoteledInn</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
@@ -40,6 +66,219 @@
       <div class="col-md-7">
         <div class="form-group">
           <h3><b>Upload Image</b></h3>
+=======
+   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand abs" href="homepage.php">HoteledInn</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav ml-auto">
+          <form class ="form-inline navbar-form" action="searchResults.php" method="POST">
+            <li class="nav-item">
+              <div class="ddl-select input-group-btn mr-sm-2">
+                <select id="ddlsearch" class="selectpicker form-control" name="dropDown" data-style="btn-primary">
+                  <option value="" data-hidden="true" class="ddl-title">Search for</option>
+                  <option value="users">Users</option>
+                  <option value="users">Hotels</option>
+                  <option value="jobHistory">Vacancies</option>
+                  <option value="skills">Skills</option>
+                </select>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <input type="text" name="data" class="form-control" placeholder="Enter here">
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="form-group mr-sm-2">
+                <button class="btn btn-success" name="search" type="submit">Search</button> 
+              </div>
+            </li>
+          </form>
+          <form class ="form-inline navbar-form" action="includes/logout.php" method="POST">
+            <li class="nav-item">
+                <button class="btn btn-success" name ="submit" type="submit">Log out</button>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="includes/logout.php">Forgot password?</a>
+            </li>
+          </form>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row profile">
+		<div class="col-md-4">
+			<div class="profile-sidebar" style="  border-radius: 25px;
+												border: 2px solid green">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+				<?php
+					if(isset($_GET['uId'])) {
+						 $sql = "select img from userImage where uId='".$_GET['uId']."';";
+						 $result = mysqli_query($conn,$sql);
+						 $row = mysqli_fetch_array($result);
+						 $image_src = "images/profile/userImages/";
+						 $image_src = $image_src."".$row['img'];
+					}
+					else {
+						 $sql = "select img from userImage where uId='".$_SESSION['uId']."';";
+						 $result = mysqli_query($conn,$sql);
+						 $row = mysqli_fetch_array($result);
+						 $image_src = "images/profile/userImages/";
+						 $image_src = $image_src."".$row['img'];
+					}
+				 
+				?>
+				<img src='<?php echo $image_src; ?>' >
+			</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						<?php 
+						if(isset($_GET['uId'])) {
+							echo $profile_hName;
+						}
+						else {
+							$profile_descr_sql="SELECT uFirstName FROM users where uId = '".$_SESSION['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uFirstName'];
+								}
+							}
+							echo $profile_descr;
+							
+							$profile_descr_sql="SELECT uLastName FROM users where uId = '".$_SESSION['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uLastName'];
+								}
+							}
+							echo $profile_descr;
+						}
+						?>
+					</div>
+					<div class="profile-usertitle-job">
+						<?php
+						if(isset($_GET['uId'])) {
+							$profile_descr_sql="SELECT uBio FROM users where uId = '".$_GET['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uBio'];
+								}
+							}
+							echo $profile_descr;
+						}
+						
+						else {
+							$profile_descr_sql="SELECT uBio FROM users where uId = '".$_SESSION['uId']."';";
+							$profile_descr_result=$conn->query($profile_descr_sql);
+							if ($conn && ($profile_descr_result->num_rows>0)) {
+								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
+									$profile_descr = $profile_descr_row['uBio'];
+								}
+							}
+							echo $profile_descr;
+						}
+							?>
+					</div>
+					<div style="text-align:left; padding:20px;">
+						<?php
+							if(isset($_GET['uId'])) {
+								echo "<BR><BR> Address: 	";
+								$profile_address_sql="SELECT uAddress FROM users where uId = '".$_GET['uId']."';";
+								$profile_address_result=$conn->query($profile_address_sql);
+								if ($conn && ($profile_address_result->num_rows>0)) {
+									while ($profile_address_row=$profile_address_result->fetch_assoc()) {
+										$profile_address = $profile_address_row['uAddress'];
+									}
+								}
+								echo $profile_address;
+								
+								echo "<BR><BR> Phone: 	";
+								$profile_contactNo_sql="SELECT uContactNo FROM users where uId = '".$_GET['uId']."';";
+								$profile_contactNo_result=$conn->query($profile_contactNo_sql);
+								if ($conn && ($profile_contactNo_result->num_rows>0)) {
+									while ($profile_contactNo_row=$profile_contactNo_result->fetch_assoc()) {
+										$profile_contactNo = $profile_contactNo_row['uContactNo'];
+									}
+								}
+								echo $profile_contactNo;
+							}
+							else {
+								echo "<BR><BR> Address: 	";
+								$profile_address_sql="SELECT uAddress FROM users where uId = '".$_SESSION['uId']."';";
+								$profile_address_result=$conn->query($profile_address_sql);
+								if ($conn && ($profile_address_result->num_rows>0)) {
+									while ($profile_address_row=$profile_address_result->fetch_assoc()) {
+										$profile_address = $profile_address_row['uAddress'];
+									}
+								}
+								echo $profile_address;
+								
+								echo "<BR><BR> Phone: 	";
+								$profile_contactNo_sql="SELECT uContactNo FROM users where uId = '".$_SESSION['uId']."';";
+								$profile_contactNo_result=$conn->query($profile_contactNo_sql);
+								if ($conn && ($profile_contactNo_result->num_rows>0)) {
+									while ($profile_contactNo_row=$profile_contactNo_result->fetch_assoc()) {
+										$profile_contactNo = $profile_contactNo_row['uContactNo'];
+									}
+								}
+								echo $profile_contactNo;
+							}	
+							
+							
+					
+						?>
+					</div>
+					
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<?php 
+					if(isset($_GET['uId'])) {
+						echo "<div class=\"profile-userbuttons\">
+							   <button type=\"button\" class=\"btn btn-success btn-sm\">Connect</button>
+						    </div>";
+					}
+				?>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul>
+						<li>
+							<a href="Profile.php">
+							<i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+						</li>
+						<li class ="active">
+							<?php 
+							if(!(isset($_GET['uId']))) {
+									$url = "editProfile.php";
+									echo "<a href=$url>
+									<a href=\"Profile.php\">
+								<i class=\"glyphicon glyphicon-user\"></i>
+								Account Settings </a>";
+							}
+							?>
+							
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>
+
+    <div class="col-md-8">
+      <div class="form-group">
+          <label>Upload Image</label>
+>>>>>>> 45cc122cd1efdb2639f8fd5dbc09a9b1cc22e11d
           <div class="input-group">
               <form method="post" action="includes/profile/uploadImage.php" enctype='multipart/form-data'>
                 <input type='file' name='file' />
