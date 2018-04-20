@@ -29,13 +29,13 @@
                         echo  "<td>$row[2]</td>";
                         echo  "<td>$row[3]</td>";
                         echo  "<td>$row[4]</td>";
-                        echo  "<td><a href=\"AddConnection.php?uid2=".$row[5]."\">Add</a></td>";
+                        echo  "<td><a href=\"addSearchConnection.php?uId2=".$row[5]."\">Add</a></td>";
                         echo  "</tr>";
                         echo  "</table></br>";
                     }
                 }else
                 {
-                    echo "<h3>No matching search results</h2>";
+                    echo "<h3>No matching search results</h3>";
                 }
 
             }elseif (strcmp($dropDownValue, "hotels") == 0) {
@@ -62,7 +62,7 @@
                         echo  "</table></br>";
                     }
                 }else{
-                    echo "<h3>No matching search results</h2>";
+                    echo "<h3>No matching search results</h3>";
                 
                 }
 
@@ -94,7 +94,7 @@
                         echo  "</table></br>";
                     }
                 }else{
-                     echo "<h3>No matching search results</h2>";
+                     echo "<h3>No matching search results</h3>";
                 }
             }elseif (strcmp($dropDownValue, "skills") == 0) {
                 $sidQuery = mysqli_query($conn, "SELECT sId FROM skills " .  
@@ -133,7 +133,7 @@
                             echo  "</table></br>";
                 }
             }else{
-                 echo "<h3>No matching search results</h2>";
+                 echo "<h3>No matching search results</h3>";
             }
 
             }
