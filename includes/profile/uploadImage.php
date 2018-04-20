@@ -1,7 +1,7 @@
 <?php
 session_start();
 $success = true;
-include 'db.php';
+include '../db.php';
 $uId = $_SESSION['uId'];
 $name = $_FILES['file']['name'];
 $target_dir = "../../images/profile/";
@@ -23,8 +23,7 @@ if( in_array($imageFileType,$extensions_arr) ) {
 		  $retval = mysqli_query($conn,$query);
 		  if(! $retval ){
 			  die('Could not update data: in update '.mysql_error());
-			  $url = "../editHotel.php?hId=".$hId;
-			  header("Location: ".$url);
+			  header("Location: ../../editprofile.php");
 			  exit();
 		  }
 	  }
@@ -35,8 +34,7 @@ if( in_array($imageFileType,$extensions_arr) ) {
 	  $retval = mysqli_query($conn,$query);
 	  if(! $retval ) {
 		  die('Could not update data: in here' . mysql_error());
-		  $url = "../editHotel.php?hId=".$uId;
-		  header("Location: ".$url);
+		  header("Location: ../../editprofile.php");
 		  exit();
 	  }
 	}
@@ -49,8 +47,7 @@ if( in_array($imageFileType,$extensions_arr) ) {
 
 if($success) {
 	$_SESSION['success'] = true;
-	$url = "../editHotel.php?hId=".$hId;
-	header("Location: ".$url);
+	header("Location: ../../editprofile.php");
 	exit();
 }
 

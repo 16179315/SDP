@@ -36,19 +36,16 @@
   </nav>
     
   <div class="container">
-   <div class="row">
-    <div class="col-md-7">
-      <div class="form-group">
-          <label>Upload Image</label>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="form-group">
+          <h3><b>Upload Image</b></h3>
           <div class="input-group">
-              <span class="input-group-btn">
-                  <span class="btn btn-default btn-file">
-                      Browse… <input type="file" id="imgInp">
-                  </span>
-              </span>
-              <input type="text" class="form-control" readonly>
+              <form method="post" action="includes/profile/uploadImage.php" enctype='multipart/form-data'>
+                <input type='file' name='file' />
+                <input type='submit' value='Upload Image' name='but_upload'>
+            </form>
           </div>
-          <img id='img-upload'/>
       	</div>
   	</div>
   </div>

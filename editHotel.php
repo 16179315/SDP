@@ -164,19 +164,19 @@
 			</div>
 		</div>
 		<div class = "col-md-8">
-		<h3>Add an image</h3>
-<div class="container">
- <div class="row">
-  <div class="col-md-7">
-<form method="post" action="includes/uploadImage.php" enctype='multipart/form-data'>
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
+		  <h3>Add an image</h3>
+			<div class="container">
+			 	<div class="row">
+			  		<div class="col-md-7">
+						<form method="post" action="includes/uploadImage.php" enctype='multipart/form-data'>
+							<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
 
-  <input type='file' name='file' />
-  <input type='submit' value='Upload Image' name='but_upload'>
-</form>
-</div>
-</div>
-	
+			  				<input type='file' name='file' />
+			  				<input type='submit' value='Upload Image' name='but_upload'>
+						</form>
+					</div>
+				</div>
+			
 <br>
 <h3>Alter basic information</h3>	
 <form action="includes/editBasic.php" method="POST">
