@@ -16,7 +16,6 @@ if (isset($_POST['signup'])) {
 		$sql = "INSERT INTO users(uFirstName, uLastName, uPassword, uEmail) VALUES ('$firstName', '$lastName', '$hashedPassword', '$email');";
 		mysqli_query($conn, $sql);
 		$sql2 = "SELECT uId from users WHERE uEmail = '$email';";
-		echo $sql2;
 		$result = mysqli_query($conn, $sql2);
 		$row = mysqli_fetch_assoc($result);
 		$sql3 = "INSERT INTO userImage(uId, img) VALUES (".$row['uId'].", 'default.jpg');";
@@ -35,6 +34,11 @@ if (isset($_POST['signup'])) {
 		//Create the user entry in the DB
 		$sql = "INSERT INTO hotels(hName, password, email) VALUES ('$firstName', '$hashedPassword', '$email');";
 		mysqli_query($conn, $sql);
+		$sql2 = "SELECT hId from hotels WHERE email = '$email';";
+		$result = mysqli_query($conn, $sql2);
+		$row = mysqli_fetch_assoc($result);
+		$sql3 = "INSERT INTO userImage(hId, hImg) VALUES (".$row['hId'].", 'default.jpg');";
+		mysqli_query($conn, $sql3);
 		header("Location: ..?signupHotel=success");
 		$_SESSION['accountCreated'] = true;
 		exit();

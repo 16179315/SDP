@@ -2,8 +2,8 @@
     session_start();
  
     include 'includes/db.php';
-	if(isset($_GET['hId'])) {
-		$profile_hName_sql="SELECT hName FROM hotels where hId = '".$_GET['hId']."';";
+	if(isset($_SESSION['hId'])) {
+		$profile_hName_sql="SELECT hName FROM hotels where hId = '".$_SESSION['hId']."';";
 		$profile_hName_result=$conn->query($profile_hName_sql);
 		if ($conn && ($profile_hName_result->num_rows>0)) {
 				while ($profile_hName_row=$profile_hName_result->fetch_assoc()) {
@@ -18,7 +18,7 @@
 <head>
   <title>
         <?php
-		if(isset($_GET['hId'])) {
+		if(isset($_SESSION['hId'])) {
             echo $profile_hName;
         }
 		else{
@@ -78,7 +78,7 @@
 				<div class="profile-userpic">
 				<?php
 
-				 $sql = "select hImg from hotelImage where hId='".$_GET['hId']."';";
+				 $sql = "select hImg from hotelImage where hId='".$_SESSION['hId']."';";
 				 $result = mysqli_query($conn,$sql);
 				 $row = mysqli_fetch_array($result);
 			     $image_src = "includes/upload/hotelImages/";
@@ -98,7 +98,7 @@
 					</div>
 					<div class="profile-usertitle-job">
 						<?php
-							$profile_descr_sql="SELECT descr FROM hotels where hId = '".$_GET['hId']."';";
+							$profile_descr_sql="SELECT descr FROM hotels where hId = '".$_SESSION['hId']."';";
 							$profile_descr_result=$conn->query($profile_descr_sql);
 							if ($conn && ($profile_descr_result->num_rows>0)) {
 								while ($profile_descr_row=$profile_descr_result->fetch_assoc()) {
@@ -111,7 +111,7 @@
 					<div style="text-align:left; padding:20px;">
 						<?php
 							echo "<BR><BR> Address: 	";
-							$profile_address_sql="SELECT address FROM hotels where hId = '".$_GET['hId']."';";
+							$profile_address_sql="SELECT address FROM hotels where hId = '".$_SESSION['hId']."';";
 							$profile_address_result=$conn->query($profile_address_sql);
 							if ($conn && ($profile_address_result->num_rows>0)) {
 								while ($profile_address_row=$profile_address_result->fetch_assoc()) {
@@ -121,7 +121,7 @@
 							echo $profile_address;
 							
 							echo "<BR><BR> Phone: 	";
-							$profile_contactNo_sql="SELECT contactNo FROM hotels where hId = '".$_GET['hId']."';";
+							$profile_contactNo_sql="SELECT contactNo FROM hotels where hId = '".$_SESSION['hId']."';";
 							$profile_contactNo_result=$conn->query($profile_contactNo_sql);
 							if ($conn && ($profile_contactNo_result->num_rows>0)) {
 								while ($profile_contactNo_row=$profile_contactNo_result->fetch_assoc()) {
@@ -148,7 +148,7 @@
 					<ul>
 						<li>
 							<?php 
-							$url = "hotel.php?hId=".$_GET['hId'].";";
+							$url = "hotel.php";
 							echo "<a href=$url>"; ?>
 							<i class="glyphicon glyphicon-home"></i>
 							Overview </a>
@@ -169,7 +169,7 @@
  <div class="row">
   <div class="col-md-7">
 <form method="post" action="includes/uploadImage.php" enctype='multipart/form-data'>
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
 
   <input type='file' name='file' />
   <input type='submit' value='Upload Image' name='but_upload'>
@@ -180,7 +180,7 @@
 <br>
 <h3>Alter basic information</h3>	
 <form action="includes/editBasic.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Email</label>
@@ -204,7 +204,7 @@
 <br>
 <h3>Add a menu </h3>
 <form action="includes/createMenu.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputMenuName4">Menu Name</label>
@@ -220,7 +220,7 @@
 <br>
 <h3>Add a dish to a menu</h3>
 <form action="includes/addDish.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputMenuName">Menu Name</label>
@@ -251,7 +251,7 @@
 <br>
 <h3>Add an Award</h3>
 <form action="includes/addAward.php" method = "POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputAwardName4">Award Name</label>
@@ -273,7 +273,7 @@
 <br>
 <h3>Add a Vacancy</h3>
 <form action="includes/addVacancy.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputVacancyName4">Vacancy Name</label>
@@ -297,7 +297,7 @@
 </form>
 <h3>Delete a Menu</h3>
 <form action="includes/deleteMenu.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputMenuName">Menu Name</label>
@@ -310,7 +310,7 @@
 </form>
 <h3>Delete an Award</h3>
 <form action="includes/deleteAward.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputAwardName">Award Name</label>
@@ -324,7 +324,7 @@
 </form>
 <h3>Delete a Vacancy</h3>
 <form action="includes/deleteVacancy.php" method="POST">
-<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_GET['hId']."'>"; ?>
+<?php echo "<input type=\"hidden\" name=\"hId\" value= '".$_SESSION['hId']."'>"; ?>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputVacancyName">Vacancy Name</label>

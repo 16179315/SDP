@@ -1,22 +1,27 @@
 <?php
 	session_start();
 
-	$emailCSS = '';
-	$passwordCSS = '';
-	$loginError = array();
-
-	if (isset($_SESSION['userLoggedIn']) || isset($_SESSION['hotelLoggedIn'])) {
+	if (isset($_SESSION['userLoggedIn'])) {
         if($_SESSION['userLoggedIn'] == true) {
             $url = "Location:../profile.php?uId=".$_SESSION['uId'];
             header("Location: ".$url);
             exit();
-        }
+		}
+	}
+	else if (isset($_SESSION['hotelLoggedIn'])) {
         if($_SESSION['hotelLoggedIn'] == true) {
             $url = "Location:../hotel.php?hId=".$_SESSION['hId'];
             header("Location: ".$url);
             exit();
-        }
-    }
+		}
+	}
+	else if (isset($_SESSION['adminLoggedIn'])) {
+		if($_SESSION['adminLoggedIn'] == true) {
+            $url = "Location:../admin.php";
+            header("Location: ".$url);
+            exit();
+		}
+	}
 
 	unset($_SESSION['emailEmpty']);
 	unset($_SESSION['passwordEmpty']);
@@ -120,6 +125,18 @@
 	</div>
 
 	<?php unset($_SESSION['passwordIncorrect']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['userBanned']) && $_SESSION['userBanned']): ?>
+
+	<div class="alert alert-danger alert-dismissable ml-4 mr-4 mt-4">
+    <strong>You are currently banned.</strong>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  	</button>
+	</div>
+
+	<?php unset($_SESSION['userBanned']); ?>
 <?php endif; ?>
 
 <div class ="container">
